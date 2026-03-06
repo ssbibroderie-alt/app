@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIN SEKAI MASTER</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { 
+            --primary: #0f172a; --secondary: #3b82f6; --accent: #6366f1;
+            --danger: #ef4444; --success: #10b981; --warning: #f59e0b; --bg: #f1f5f9;
+            --card-bg: #ffffff; --text-p: #1e293b; --text-s: #64748b;
+        }
+
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; color: var(--text-p); }
+        
+        header { 
+            background: var(--primary); color: white; padding: 15px; position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .logo-area { display: flex; align-items: center; gap: 12px; }
+        .logo-img { width: 45px; height: 45px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.2); object-fit: cover; }
+        .header-top h1 { margin: 0; font-size: 1.2rem; font-weight: 800; letter-spacing: 1.5px; }
+        
+        #cloud-status { font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 50px; }
+        .top-actions { display: flex; gap: 8px; }
+        .btn-icon { background: rgba(255,255,255,0.1); border: none; color: white; padding: 10px; border-radius: 12px; cursor: pointer; }
+        
+        .search-bar { width: 100%; padding: 14px 18px; border-radius: 14px; border: 1px solid #ddd; background: #fff; outline: none; font-size: 1rem; box-sizing: border-box; }
+        
+        .nav-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 12px 0; scrollbar-width: none; }
+        .tab { padding: 10px 20px; background: #cbd5e1; border-radius: 12px; border: none; color: #475569; white-space: nowrap; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
+        .tab.active { background: var(--secondary); color: white; }
+
+        .container { padding: 20px; max-width: 850px; margin: 0 auto; }
+        .view { display: none; }
+        .view.active { display: block; }
+        
+        .stats-bar { background: white; padding: 15px 20px; border-radius: 16px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; border-left: 6px solid var(--secondary); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        
+        .card { background: var(--card-bg); border-radius: 16px; padding: 16px; margin-bottom: 15px; border: 1px solid #e2e8f0; position: relative; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .order-num { position: absolute; top: -10px; left: 15px; background: var(--primary); color: white; padding: 4px 12px; font-size: 0.75rem; font-weight: 800; border-radius: 8px; }
+        .client-name { font-weight: 800; font-size: 1.1rem; color: var(--primary); display: block; }
+        .qty-label { background: #eff6ff; color: var(--secondary); padding: 8px 15px; border-radius: 12px; font-weight: 900; font-size: 1.3rem; border: 1px solid #dbeafe; }
+        
+        .status-group { display: flex; gap: 8px; margin-top: 15px; border-top: 1px solid #f1f5f9; padding-top: 15px; }
+        .st-btn { flex: 1; padding: 10px 5px; border-radius: 10px; border: 1px solid #e2e8f0; background: #fff; font-size: 0.7rem; font-weight: 700; cursor: pointer; }
+        .st-btn.active.in { background: var(--warning); color: white; border-color: var(--warning); }
+        .st-btn.active.ok { background: var(--success); color: white; border-color: var(--success); }
+
+        .fab { position: fixed; bottom: 30px; right: 25px; width: 65px; height: 65px; border-radius: 22px; background: var(--secondary); color: white; border: none; font-size: 28px; box-shadow: 0 10px 25px rgba(59, 130, 246, 0.5); z-index: 1000; cursor: pointer; }
+
+        @media print {
+            header, .fab, .status-group, .top-actions, .nav-scroll, .stats-bar, .search-bar { display: none !important; }
+            body { background: white !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            .container { max-width: 100% !important; padding: 5mm !important; }
+            .card { display: flex !important; flex-direction: row !important; align-items: center !important; border: 1px solid #ddd !important; margin-bottom: 6px !important; border-radius: 50px !important; padding: 5px 20px !important; page-break-inside: avoid !important; background: #fff !important; }
+            .card.status-ok { background-color: #f0fdf4 !important; border-color: #bbf7d0 !important; } 
+            .card.status-in { background-color: #fffbeb !important; border-color: #fef3c7 !important; }
+            .order-num { position: static !important; background: transparent !important; color: #555 !important; border: 1.5px solid #ccc !important; min-width: 30px !important; height: 30px !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 0.9rem !important; font-weight: bold !important; margin-right: 15px !important; border-radius: 50% !important; }
+            .client-name { color: #000 !important; font-size: 0.95rem !important; }
+            .qty-label { margin-left: auto !important; background: transparent !important; color: #000 !important; border: 1px solid #333 !important; padding: 2px 10px !important; font-size: 1.1rem !important; border-radius: 8px !important; }
+            .print-tag { display: inline-block !important; margin-left: 10px; font-size: 0.65rem; font-weight: bold; background: #eee; padding: 2px 6px; border-radius: 5px; }
+        }
+
+        .panel input, .panel select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; }
+        .cat-item { display: flex; justify-content: space-between; padding: 10px; background: #f8fafc; margin-bottom: 5px; border-radius: 8px; align-items: center; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-top">
+        <div class="logo-area">
+            <img src="shin sekai.ico" class="logo-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2192/2192244.png'">
+            <h1>SHIN SEKAI</h1>
+        </div>
+        <div id="cloud-status"><i class="fas fa-cloud"></i> Sync...</div>
+        <div class="top-actions">
+            <button class="btn-icon" onclick="toggleView('settings')"><i class="fas fa-cog"></i></button>
+            <button class="btn-icon" onclick="window.print()"><i class="fas fa-print"></i></button>
+            <button class="btn-icon" onclick="fetchData()"><i class="fas fa-sync-alt"></i></button>
+        </div>
+    </div>
+    <input type="text" id="searchInput" class="search-bar" placeholder="Rechercher client ou N°..." onkeyup="handleSearch()">
+    <div class="nav-scroll" id="navTabs"></div>
+</header>
+
+<div class="container">
+    <div id="view-main" class="view active">
+        <div class="stats-bar" id="statsBar"></div>
+        <div id="orderList"></div>
+    </div>
+
+    <div id="view-add-order" class="view">
+        <div class="panel" style="background: white; padding: 25px; border-radius: 20px;">
+            <h3 id="formTitle">Fiche Commande</h3>
+            <input type="hidden" id="editId">
+            <input type="number" id="orderNum" placeholder="Numéro">
+            <input type="text" id="orderClient" placeholder="Nom du client">
+            <input type="text" id="orderColor" placeholder="Tissu / Couleur">
+            <input type="text" id="orderPriority" placeholder="Notes techniques">
+            <input type="number" id="orderQty" placeholder="Quantité">
+            <select id="orderCat"></select>
+            <button style="width:100%; padding:15px; background:var(--secondary); color:white; border:none; border-radius:10px; font-weight:bold;" onclick="saveOrder()">VALIDER</button>
+            <button style="width:100%; background:none; border:none; margin-top:10px; color:var(--text-s)" onclick="toggleView('main')">ANNULER</button>
+        </div>
+    </div>
+
+    <div id="view-settings" class="view">
+        <div class="panel" style="background: white; padding: 25px; border-radius: 20px;">
+            <h3>Gestion Catégories</h3>
+            <div style="display:flex; gap:10px; margin-bottom:20px;">
+                <input type="text" id="newCatInput" placeholder="Nouveau..." style="margin-bottom:0">
+                <button onclick="addCategory()" style="background:var(--success); color:white; border:none; border-radius:10px; padding:0 20px;">+</button>
+            </div>
+            <div id="categoriesManagerList"></div>
+            <button style="width:100%; background:var(--primary); color:white; border:none; border-radius:10px; padding:15px; margin-top:20px; font-weight:bold;" onclick="saveAndSyncCats()">SAUVEGARDER & FERMER</button>
+        </div>
+    </div>
+</div>
+
+<button class="fab" onclick="prepareAdd()"><i class="fas fa-plus"></i></button>
+
+<script>
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycby0E78pA3jMqOuEemCrieo7dcMR8uADuh6YgviuQDv7QMCyzdYkMSvpszJXfSaLEFl1LA/exec";
+    
+    let orders = [];
+    let categories = ["POLOS","PANTALONS","JACKETS","JUPES","BERMUDAS","BLOUSONS","TENUE DE TRAVAIL","BLOUSES","PULLS","MAILLOT + PANT","MAILLOT + SHORT"];
+    let currentTab = categories[0];
+    let isSearching = false;
+
+    async function fetchData() {
+        document.getElementById('cloud-status').innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Sync...';
+        try {
+            const response = await fetch(WEB_APP_URL);
+            const data = await response.json();
+            // Si le Cloud contient des catégories (stockées sous forme de commande spéciale ID: 999)
+            const cloudCats = data.find(o => o.id === 999);
+            if(cloudCats) {
+                categories = JSON.parse(cloudCats.client);
+            }
+            orders = data.filter(o => o.id !== 999);
+            if(!categories.includes(currentTab)) currentTab = categories[0];
+            renderOrders();
+            document.getElementById('cloud-status').innerHTML = '<i class="fas fa-cloud"></i> OK';
+        } catch (e) { }
+    }
+
+    async function syncToCloud() {
+        // On inclut les catégories dans la sauvegarde Cloud (ID spécial 999)
+        const dataToSave = [...orders, {id: 999, num: 0, client: JSON.stringify(categories), color: '', priority: '', qty: 0, cat: 'SYSTEM', status: 'x'}];
+        await fetch(WEB_APP_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(dataToSave) });
+        setTimeout(fetchData, 1000);
+    }
+
+    function renderOrders() {
+        const list = document.getElementById('orderList');
+        const search = document.getElementById('searchInput').value.toLowerCase();
+        list.innerHTML = '';
+        let filtered = isSearching ? orders.filter(o => o.client.toString().toLowerCase().includes(search) || o.num.toString().includes(search)) : orders.filter(o => o.cat === currentTab);
+        
+        filtered.sort((a, b) => {
+            const p = { 'ok': 1, 'in': 2, 'w': 3 };
+            return p[a.status] - p[b.status] || parseInt(a.num) - parseInt(b.num);
+        });
+
+        if(!isSearching) {
+            document.getElementById('statsBar').innerHTML = `<span>${currentTab}</span> <span>${filtered.length} Fiches</span>`;
+            renderTabs();
+        }
+        filtered.forEach(o => {
+            const card = document.createElement('div');
+            card.className = `card status-${o.status}`;
+            card.innerHTML = `
+                <div class="order-num">${o.num}</div>
+                <div style="flex:1">
+                    <span class="client-name">${o.client} <span class="print-tag">${o.status==='ok'?'FINI':(o.status==='in'?'COURS':'')}</span></span>
+                    <span style="font-size:0.8rem; color:var(--text-s);">${o.color || ''} ${o.priority ? '• '+o.priority : ''}</span>
+                </div>
+                <div class="qty-label">${o.qty}</div>
+                <div class="status-group">
+                    <button class="st-btn ${o.status==='w'?'active':''}" onclick="setStatus(${o.id}, 'w')">ATTENTE</button>
+                    <button class="st-btn in ${o.status==='in'?'active':''}" onclick="setStatus(${o.id}, 'in')">COURS</button>
+                    <button class="st-btn ok ${o.status==='ok'?'active':''}" onclick="setStatus(${o.id}, 'ok')">FINI</button>
+                    <button class="st-btn" onclick="prepareEdit(${o.id})">✎</button>
+                    <button class="st-btn" style="color:red" onclick="deleteOrder(${o.id})">✖</button>
+                </div>
+            `;
+            list.appendChild(card);
+        });
+    }
+
+    function addCategory() {
+        const val = document.getElementById('newCatInput').value.toUpperCase().trim();
+        if(val && !categories.includes(val)) {
+            categories.push(val);
+            document.getElementById('newCatInput').value = "";
+            renderCategoriesManager();
+        }
+    }
+
+    function deleteCategory(cat) {
+        if(categories.length <= 1) return alert("Gardez au moins une catégorie.");
+        categories = categories.filter(c => c !== cat);
+        renderCategoriesManager();
+    }
+
+    function saveAndSyncCats() {
+        syncToCloud();
+        toggleView('main');
+    }
+
+    function renderCategoriesManager() {
+        const list = document.getElementById('categoriesManagerList');
+        list.innerHTML = categories.map(c => `
+            <div class="cat-item">
+                <span>${c}</span>
+                <i class="fas fa-trash" style="color:var(--danger); cursor:pointer" onclick="deleteCategory('${c}')"></i>
+            </div>
+        `).join('');
+    }
+
+    function setStatus(id, s) { orders.find(o => o.id == id).status = s; renderOrders(); syncToCloud(); }
+    function handleSearch() { isSearching = document.getElementById('searchInput').value.length > 0; renderOrders(); }
+    function renderTabs() { const nav = document.getElementById('navTabs'); nav.innerHTML = categories.map(c => `<button class="tab ${currentTab === c ? 'active' : ''}" onclick="currentTab='${c}'; isSearching=false; renderOrders();">${c}</button>`).join(''); }
+    function toggleView(v) { document.querySelectorAll('.view').forEach(e => e.classList.remove('active')); document.getElementById('view-'+v).classList.add('active'); if(v === 'settings') renderCategoriesManager(); }
+    function prepareAdd() { document.getElementById('formTitle').innerText = "Nouvelle Fiche"; document.getElementById('editId').value=""; document.getElementById('orderClient').value=""; document.getElementById('orderQty').value=""; document.getElementById('orderNum').value = orders.length > 0 ? Math.max(...orders.map(o=>parseInt(o.num)))+1 : 1; renderCatSelect(); toggleView('add-order'); }
+    function prepareEdit(id) { const o = orders.find(x => x.id == id); document.getElementById('formTitle').innerText = "Modifier Fiche"; document.getElementById('editId').value=o.id; document.getElementById('orderNum').value=o.num; document.getElementById('orderClient').value=o.client; document.getElementById('orderQty').value=o.qty; document.getElementById('orderColor').value=o.color; document.getElementById('orderPriority').value=o.priority; renderCatSelect(); document.getElementById('orderCat').value = o.cat; toggleView('add-order'); }
+    function renderCatSelect() { document.getElementById('orderCat').innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join(''); }
+    function deleteOrder(id) { if(confirm("Supprimer ?")) { orders = orders.filter(o => o.id != id); syncToCloud(); } }
+    function saveOrder() {
+        const id = document.getElementById('editId').value;
+        const data = { id: id ? parseInt(id) : Date.now(), num: document.getElementById('orderNum').value, client: document.getElementById('orderClient').value.toUpperCase(), color: document.getElementById('orderColor').value, priority: document.getElementById('orderPriority').value, qty: document.getElementById('orderQty').value, cat: document.getElementById('orderCat').value, status: id ? orders.find(x=>x.id==id).status : 'w' };
+        if(id) orders = orders.map(x => x.id == id ? data : x); else orders.push(data);
+        toggleView('main'); syncToCloud();
+    }
+
+    fetchData();
+</script>
+</body>
+</html>
