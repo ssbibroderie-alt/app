@@ -3,288 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHIN SEKAI MASTER V2 - PROD</title>
+    <title>SHIN SEKAI - FIX FINAL</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { 
-            --primary: #0f172a; --secondary: #3b82f6; --accent: #6366f1;
-            --danger: #ef4444; --success: #10b981; --warning: #f59e0b; --bg: #f1f5f9;
-            --card-bg: #ffffff; --text-p: #1e293b; --text-s: #64748b;
-        }
-
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; color: var(--text-p); }
-        
-        header { 
-            background: var(--primary); color: white; padding: 15px; position: sticky; top: 0; z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-        }
-        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .logo-area { display: flex; align-items: center; gap: 12px; }
-        .logo-img { width: 45px; height: 45px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.2); object-fit: cover; }
-        .header-top h1 { margin: 0; font-size: 1.2rem; font-weight: 800; letter-spacing: 1.5px; }
-        
-        #cloud-status { font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 50px; }
-        .top-actions { display: flex; gap: 8px; }
-        .btn-icon { background: rgba(255,255,255,0.1); border: none; color: white; padding: 10px; border-radius: 12px; cursor: pointer; }
-        
-        /* NAVIGATION DEPARTEMENTS */
-        .dept-nav { 
-            display: flex; justify-content: space-around; background: rgba(0,0,0,0.2); 
-            padding: 8px; border-radius: 12px; margin-bottom: 12px; 
-        }
-        .dept-btn { 
-            background: none; border: none; color: #94a3b8; font-weight: 800; 
-            font-size: 0.7rem; cursor: pointer; padding: 6px 10px;
-        }
-        .dept-btn.active { color: var(--success); border-bottom: 2px solid var(--success); }
-
-        .search-bar { width: 100%; padding: 14px 18px; border-radius: 14px; border: 1px solid #ddd; background: #fff; outline: none; font-size: 1rem; box-sizing: border-box; }
-        
-        .nav-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 12px 0; scrollbar-width: none; }
-        .tab { padding: 10px 20px; background: #cbd5e1; border-radius: 12px; border: none; color: #475569; white-space: nowrap; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
-        .tab.active { background: var(--secondary); color: white; }
-
-        .container { padding: 20px; max-width: 850px; margin: 0 auto; }
-        .view { display: none; }
-        .view.active { display: block; }
-        
-        .stats-bar { background: white; padding: 15px 20px; border-radius: 16px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; border-left: 6px solid var(--secondary); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        
-        .card { background: var(--card-bg); border-radius: 16px; padding: 16px; margin-bottom: 15px; border: 1px solid #e2e8f0; position: relative; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-        .order-num { position: absolute; top: -10px; left: 15px; background: var(--primary); color: white; padding: 4px 12px; font-size: 0.75rem; font-weight: 800; border-radius: 8px; }
-        .client-name { font-weight: 800; font-size: 1.1rem; color: var(--primary); display: block; }
-        .qty-label { background: #eff6ff; color: var(--secondary); padding: 8px 15px; border-radius: 12px; font-weight: 900; font-size: 1.3rem; border: 1px solid #dbeafe; }
-        
-        .status-group { display: flex; gap: 8px; margin-top: 15px; border-top: 1px solid #f1f5f9; padding-top: 15px; flex-wrap: wrap; }
-        .st-btn { flex: 1; padding: 10px 5px; border-radius: 10px; border: 1px solid #e2e8f0; background: #fff; font-size: 0.7rem; font-weight: 700; cursor: pointer; min-width: 60px; }
-        .st-btn.active.in { background: var(--warning); color: white; border-color: var(--warning); }
-        .st-btn.active.ok { background: var(--success); color: white; border-color: var(--success); }
-        .btn-clone { background: var(--accent); color: white; border: none; width: 100%; margin-top: 8px; padding: 12px; border-radius: 10px; font-weight: 800; cursor: pointer; }
-
-        .fab { position: fixed; bottom: 30px; right: 25px; width: 65px; height: 65px; border-radius: 22px; background: var(--secondary); color: white; border: none; font-size: 28px; box-shadow: 0 10px 25px rgba(59, 130, 246, 0.5); z-index: 1000; cursor: pointer; }
-
-        .panel input, .panel select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; }
-        .cat-item { display: flex; justify-content: space-between; padding: 10px; background: #f8fafc; margin-bottom: 5px; border-radius: 8px; align-items: center; }
+        :root { --p: #0f172a; --s: #3b82f6; --ok: #10b981; --warn: #f59e0b; --bg: #f1f5f9; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; }
+        header { background: var(--p); color: white; padding: 15px; position: sticky; top: 0; z-index: 1000; }
+        .dept-nav { display: flex; justify-content: space-around; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 12px; margin: 10px 0; }
+        .dept-btn { background: none; border: none; color: #94a3b8; font-weight: 800; font-size: 0.7rem; cursor: pointer; }
+        .dept-btn.active { color: var(--ok); border-bottom: 2px solid var(--ok); }
+        .nav-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; scrollbar-width: none; }
+        .tab { padding: 8px 15px; background: #cbd5e1; border-radius: 10px; border: none; white-space: nowrap; font-size: 0.8rem; font-weight: 600; }
+        .tab.active { background: var(--s); color: white; }
+        .container { padding: 15px; max-width: 800px; margin: 0 auto; }
+        .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 5px solid #ddd; }
+        .card.status-ok { border-left-color: var(--ok); }
+        .card.status-in { border-left-color: var(--warn); }
+        .qty { background: #eff6ff; color: var(--s); padding: 5px 12px; border-radius: 10px; font-weight: 900; font-size: 1.2rem; }
+        .st-group { display: flex; gap: 5px; margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px; }
+        .st-btn { flex: 1; padding: 8px 2px; border-radius: 8px; border: 1px solid #ddd; background: white; font-size: 0.6rem; font-weight: 700; }
+        .st-btn.active { background: #333; color: white; }
+        .fab { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; border-radius: 50%; background: var(--s); color: white; border: none; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .view { display: none; } .view.active { display: block; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="header-top">
-        <div class="logo-area">
-            <img src="shin sekai.ico" class="logo-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2192/2192244.png'">
-            <h1>SHIN SEKAI <small style="font-size:0.5rem; color:var(--success)">PRO V2</small></h1>
-        </div>
-        <div id="cloud-status"><i class="fas fa-cloud"></i> Sync...</div>
-        <div class="top-actions">
-            <button class="btn-icon" onclick="toggleView('settings')"><i class="fas fa-cog"></i></button>
-            <button class="btn-icon" onclick="window.print()"><i class="fas fa-print"></i></button>
-            <button class="btn-icon" onclick="fetchData()"><i class="fas fa-sync-alt"></i></button>
-        </div>
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <b>SHIN SEKAI <span id="sync-icon">●</span></b>
+        <button onclick="fetchData()" style="background:none; border:none; color:white;"><i class="fas fa-sync"></i></button>
     </div>
-
     <div class="dept-nav">
         <button class="dept-btn active" onclick="setDept('COUPE')">COUPE</button>
         <button class="dept-btn" onclick="setDept('COUTURE')">COUTURE</button>
         <button class="dept-btn" onclick="setDept('LOGO')">LOGO</button>
         <button class="dept-btn" onclick="setDept('FINITION')">FINITION</button>
     </div>
-
-    <input type="text" id="searchInput" class="search-bar" placeholder="Rechercher client ou N°..." onkeyup="handleSearch()">
     <div class="nav-scroll" id="navTabs"></div>
 </header>
 
 <div class="container">
-    <div id="view-main" class="view active">
-        <div class="stats-bar" id="statsBar"></div>
-        <div id="orderList"></div>
-    </div>
-
-    <div id="view-add-order" class="view">
-        <div class="panel" style="background: white; padding: 25px; border-radius: 20px;">
-            <h3 id="formTitle">Fiche Commande</h3>
-            <input type="hidden" id="editId">
-            <input type="number" id="orderNum" placeholder="Numéro">
-            <input type="text" id="orderClient" placeholder="Nom du client">
-            <input type="text" id="orderColor" placeholder="Tissu / Couleur">
-            <input type="text" id="orderPriority" placeholder="Notes techniques">
-            <input type="number" id="orderQty" placeholder="Quantité">
-            <select id="orderCat"></select>
-            <button style="width:100%; padding:15px; background:var(--secondary); color:white; border:none; border-radius:10px; font-weight:bold;" onclick="saveOrder()">VALIDER</button>
-            <button style="width:100%; background:none; border:none; margin-top:10px; color:var(--text-s)" onclick="toggleView('main')">ANNULER</button>
-        </div>
-    </div>
-
-    <div id="view-settings" class="view">
-        <div class="panel" style="background: white; padding: 25px; border-radius: 20px;">
-            <h3>Gestion Catégories</h3>
-            <div style="display:flex; gap:10px; margin-bottom:20px;">
-                <input type="text" id="newCatInput" placeholder="Nouveau..." style="margin-bottom:0">
-                <button onclick="addCategory()" style="background:var(--success); color:white; border:none; border-radius:10px; padding:0 20px;">+</button>
-            </div>
-            <div id="categoriesManagerList"></div>
-            <button style="width:100%; background:var(--primary); color:white; border:none; border-radius:10px; padding:15px; margin-top:20px; font-weight:bold;" onclick="saveAndSyncCats()">SAUVEGARDER & FERMER</button>
-        </div>
+    <div id="v-main" class="view active"><div id="orderList"></div></div>
+    <div id="v-form" class="view">
+        <input type="hidden" id="f-id"><input type="number" id="f-num" placeholder="N°"><input type="text" id="f-client" placeholder="Client">
+        <input type="text" id="f-color" placeholder="Couleur/Tissu"><input type="number" id="f-qty" placeholder="Quantité">
+        <select id="f-cat"></select>
+        <button onclick="save()" id="btn-save" style="width:100%; padding:15px; background:var(--s); color:white; border:none; border-radius:8px; font-weight:bold;">ENREGISTRER</button>
+        <button onclick="toggleView('v-main')" style="width:100%; margin-top:10px; background:none; border:none;">RETOUR</button>
     </div>
 </div>
-
-<button class="fab" onclick="prepareAdd()"><i class="fas fa-plus"></i></button>
+<button class="fab" onclick="prepAdd()">+</button>
 
 <script>
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycby0E78pA3jMqOuEemCrieo7dcMR8uADuh6YgviuQDv7QMCyzdYkMSvpszJXfSaLEFl1LA/exec";
-    
-    let orders = [];
-    let categories = ["POLOS","PANTALONS","JACKETS","JUPES","BERMUDAS","BLOUSONS","TENUE DE TRAVAIL","BLOUSES","PULLS","MAILLOT + PANT","MAILLOT + SHORT"];
-    let currentTab = categories[0];
-    let currentDept = 'COUPE';
-    let isSearching = false;
+    const URL = "https://script.google.com/macros/s/AKfycby0E78pA3jMqOuEemCrieo7dcMR8uADuh6YgviuQDv7QMCyzdYkMSvpszJXfSaLEFl1LA/exec";
+    let orders = [], categories = ["POLOS","PANTALONS","JACKETS","JUPES","BERMUDAS","BLOUSONS","TENUE DE TRAVAIL","BLOUSES","PULLS","MAILLOT + PANT","MAILLOT + SHORT"];
+    let curTab = categories[0], curDept = 'COUPE', lock = false;
 
-    // --- SYNCHRONISATION ANTI-DOUBLONS ---
     async function fetchData() {
-        document.getElementById('cloud-status').innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Sync...';
+        if(lock) return;
+        document.getElementById('sync-icon').style.color = "orange";
         try {
-            const response = await fetch(WEB_APP_URL);
-            const data = await response.json();
+            const res = await fetch(URL);
+            const data = await res.json();
             
-            // Gestion catégories spéciales (ID 999)
-            const cloudCats = data.find(o => o.id === 999);
-            if(cloudCats) { categories = JSON.parse(cloudCats.client); }
+            // 1. Filtrer les catégories (ID 999)
+            const cItem = data.find(o => String(o.id) === "999");
+            if(cItem) categories = JSON.parse(cItem.client);
             
-            // NETTOYAGE DES DOUBLONS PAR ID UNIQUE
-            const uniqueOrders = [];
-            const seenIds = new Set();
-            data.filter(o => o.id !== 999).forEach(item => {
-                if (!seenIds.has(item.id)) {
-                    uniqueOrders.push(item);
-                    seenIds.add(item.id);
-                }
+            // 2. ANTI-DOUBLON STRICT (On ne garde que le premier ID rencontré)
+            const unique = []; const seen = new Set();
+            data.filter(o => String(o.id) !== "999").forEach(o => {
+                if(!seen.has(o.id)) { unique.push(o); seen.add(o.id); }
             });
-
-            orders = uniqueOrders;
-            if(!categories.includes(currentTab)) currentTab = categories[0];
-            renderOrders();
-            document.getElementById('cloud-status').innerHTML = '<i class="fas fa-cloud"></i> OK';
-        } catch (e) { 
-            document.getElementById('cloud-status').innerHTML = '<i class="fas fa-exclamation-triangle"></i> Erreur';
-        }
+            orders = unique; render();
+            document.getElementById('sync-icon').style.color = "#10b981";
+        } catch(e) { document.getElementById('sync-icon').style.color = "red"; }
     }
 
-    async function syncToCloud() {
-        document.getElementById('cloud-status').innerHTML = '<i class="fas fa-upload fa-spin"></i> Envoi...';
-        const dataToSave = [...orders, {id: 999, num: 0, client: JSON.stringify(categories), color: '', priority: '', qty: 0, cat: 'SYSTEM', status: 'x'}];
+    async function sync() {
+        if(lock) return; lock = true;
+        document.getElementById('btn-save').disabled = true;
+        document.getElementById('sync-icon').innerHTML = "⏳";
+
+        // NETTOYAGE DES DOUBLONS AVANT ENVOI
+        const seen = new Set();
+        const cleanOrders = orders.filter(o => {
+            if(seen.has(o.id)) return false;
+            seen.add(o.id); return true;
+        });
+
+        const toSave = [...cleanOrders, {id: 999, num: 0, client: JSON.stringify(categories), color: '', priority: '', qty: 0, cat: 'SYSTEM', status: 'x'}];
         
         try {
-            await fetch(WEB_APP_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(dataToSave) });
-            // On laisse 2 secondes pour éviter les conflits de lecture/écriture
-            setTimeout(fetchData, 2000);
-        } catch (e) { alert("Erreur de sauvegarde"); }
+            await fetch(URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(toSave) });
+            setTimeout(() => { lock = false; document.getElementById('btn-save').disabled = false; document.getElementById('sync-icon').innerHTML = "●"; fetchData(); }, 2000);
+        } catch(e) { lock = false; }
     }
 
-    function setDept(d) {
-        currentDept = d;
-        document.querySelectorAll('.dept-btn').forEach(b => b.classList.toggle('active', b.innerText === d));
-        renderOrders();
-    }
+    function render() {
+        const list = document.getElementById('orderList'); list.innerHTML = '';
+        const nav = document.getElementById('navTabs');
+        nav.innerHTML = categories.map(c => `<button class="tab ${curTab===c?'active':''}" onclick="curTab='${c}';render();">${c}</button>`).join('');
 
-    function renderOrders() {
-        const list = document.getElementById('orderList');
-        const search = document.getElementById('searchInput').value.toLowerCase();
-        list.innerHTML = '';
-        
-        // FILTRAGE : Article + Département (Sauf si recherche)
-        let filtered = isSearching ? 
-            orders.filter(o => o.client.toString().toLowerCase().includes(search) || o.num.toString().includes(search)) : 
-            orders.filter(o => o.cat === currentTab && (o.dept || 'COUPE') === currentDept);
-        
-        filtered.sort((a, b) => {
-            const p = { 'ok': 1, 'in': 2, 'w': 3 };
-            return p[a.status] - p[b.status] || parseInt(a.num) - parseInt(b.num);
-        });
-
-        if(!isSearching) {
-            document.getElementById('statsBar').innerHTML = `<span>${currentDept} : ${currentTab}</span> <span>${filtered.length} Fiches</span>`;
-            renderTabs();
-        }
-
-        filtered.forEach(o => {
-            const card = document.createElement('div');
-            card.className = `card status-${o.status}`;
-            card.innerHTML = `
+        orders.filter(o => o.cat === curTab && (o.dept || 'COUPE') === curDept).forEach(o => {
+            const div = document.createElement('div');
+            div.className = `card status-${o.status}`;
+            div.innerHTML = `
                 <div class="order-num">${o.num}</div>
-                <div style="flex:1">
-                    <span class="client-name">${o.client}</span>
-                    <span style="font-size:0.8rem; color:var(--text-s);">${o.color || ''} ${o.priority ? '• '+o.priority : ''}</span>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div><b>${o.client}</b><br><small>${o.color || ''}</small></div>
+                    <div class="qty">${o.qty}</div>
                 </div>
-                <div class="qty-label">${o.qty}</div>
-                <div class="status-group">
-                    <button class="st-btn ${o.status==='w'?'active':''}" onclick="setStatus(${o.id}, 'w')">ATTENTE</button>
-                    <button class="st-btn in ${o.status==='in'?'active':''}" onclick="setStatus(${o.id}, 'in')">COURS</button>
-                    <button class="st-btn ok ${o.status==='ok'?'active':''}" onclick="setStatus(${o.id}, 'ok')">FINI</button>
-                    <button class="st-btn" onclick="prepareEdit(${o.id})">✎</button>
-                    <button class="st-btn" style="color:red" onclick="deleteOrder(${o.id})">✖</button>
+                <div class="st-group">
+                    <button class="st-btn ${o.status==='w'?'active':''}" onclick="setSt('${o.id}','w')">ATTENTE</button>
+                    <button class="st-btn ${o.status==='in'?'active':''}" onclick="setSt('${o.id}','in')">COURS</button>
+                    <button class="st-btn ${o.status==='ok'?'active':''}" onclick="setSt('${o.id}','ok')">FINI</button>
+                    <button class="st-btn" onclick="prepEdit('${o.id}')">✎</button>
+                    <button class="st-btn" onclick="del('${o.id}')" style="color:red">✖</button>
                 </div>
-                ${(currentDept === 'COUPE' && o.status === 'ok') ? `<button class="btn-clone" onclick="launchProduction(${o.id})">LANCER PROD (CLONER) 🚀</button>` : ''}
+                ${(curDept==='COUPE' && o.status==='ok')?`<button onclick="clone('${o.id}')" style="width:100%;margin-top:10px;padding:10px;border-radius:8px;border:none;background:#333;color:white;font-weight:bold;">LANCER PROD 🚀</button>`:''}
             `;
-            list.appendChild(card);
+            list.appendChild(div);
         });
     }
 
-    // --- MOTEUR DE CLONAGE ---
-    async function launchProduction(id) {
-        const original = orders.find(o => o.id === id);
-        if(!confirm("Cloner cette commande vers COUTURE et LOGO ?")) return;
-
-        // On crée les clones Couture et Logo
-        const depts = ['COUTURE', 'LOGO'];
-        depts.forEach(d => {
-            const clone = JSON.parse(JSON.stringify(original));
-            clone.id = Date.now() + Math.floor(Math.random() * 1000); // ID UNIQUE
-            clone.dept = d;
-            clone.status = 'w';
-            orders.push(clone);
-        });
-
-        // L'original (COUPE) reste mais est marqué comme "Transféré"
-        original.priority = "✅ Transféré en Prod";
-        syncToCloud();
-    }
-
-    function saveOrder() {
-        const id = document.getElementById('editId').value;
-        const newId = Date.now() + Math.floor(Math.random() * 1000); // PROTECTION ANTI-DOUBLON
-        
-        const data = { 
-            id: id ? parseInt(id) : newId, 
-            num: document.getElementById('orderNum').value, 
-            client: document.getElementById('orderClient').value.toUpperCase(), 
-            color: document.getElementById('orderColor').value, 
-            priority: document.getElementById('orderPriority').value, 
-            qty: document.getElementById('orderQty').value, 
-            cat: document.getElementById('orderCat').value, 
-            dept: id ? orders.find(x=>x.id==id).dept : currentDept,
-            status: id ? orders.find(x=>x.id==id).status : 'w' 
+    function save() {
+        const id = document.getElementById('f-id').value;
+        const newO = {
+            id: id || "ID-" + Date.now() + Math.floor(Math.random()*1000),
+            num: document.getElementById('f-num').value,
+            client: document.getElementById('f-client').value.toUpperCase(),
+            color: document.getElementById('f-color').value,
+            qty: document.getElementById('f-qty').value,
+            cat: document.getElementById('f-cat').value,
+            dept: id ? orders.find(x=>x.id==id).dept : curDept,
+            status: id ? orders.find(x=>x.id==id).status : 'w'
         };
-
-        if(id) orders = orders.map(x => x.id == id ? data : x);
-        else orders.push(data);
-        
-        toggleView('main');
-        syncToCloud();
+        if(id) orders = orders.map(x => x.id == id ? newO : x); else orders.push(newO);
+        toggleView('v-main'); sync();
     }
 
-    // Fonctions utilitaires
-    function setStatus(id, s) { orders.find(o => o.id == id).status = s; renderOrders(); syncToCloud(); }
-    function handleSearch() { isSearching = document.getElementById('searchInput').value.length > 0; renderOrders(); }
-    function renderTabs() { const nav = document.getElementById('navTabs'); nav.innerHTML = categories.map(c => `<button class="tab ${currentTab === c ? 'active' : ''}" onclick="currentTab='${c}'; isSearching=false; renderOrders();">${c}</button>`).join(''); }
-    function toggleView(v) { document.querySelectorAll('.view').forEach(e => e.classList.remove('active')); document.getElementById('view-'+v).classList.add('active'); if(v === 'settings') renderCategoriesManager(); }
-    function prepareAdd() { document.getElementById('formTitle').innerText = "Nouvelle Fiche"; document.getElementById('editId').value=""; document.getElementById('orderClient').value=""; document.getElementById('orderQty').value=""; document.getElementById('orderNum').value = orders.length > 0 ? Math.max(...orders.map(o=>parseInt(o.num)))+1 : 1; renderCatSelect(); toggleView('add-order'); }
-    function prepareEdit(id) { const o = orders.find(x => x.id == id); document.getElementById('formTitle').innerText = "Modifier Fiche"; document.getElementById('editId').value=o.id; document.getElementById('orderNum').value=o.num; document.getElementById('orderClient').value=o.client; document.getElementById('orderQty').value=o.qty; document.getElementById('orderColor').value=o.color; document.getElementById('orderPriority').value=o.priority; renderCatSelect(); document.getElementById('orderCat').value = o.cat; toggleView('add-order'); }
-    function renderCatSelect() { document.getElementById('orderCat').innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join(''); }
-    function deleteOrder(id) { if(confirm("Supprimer ?")) { orders = orders.filter(o => o.id != id); syncToCloud(); } }
-    function addCategory() { const val = document.getElementById('newCatInput').value.toUpperCase().trim(); if(val && !categories.includes(val)) { categories.push(val); document.getElementById('newCatInput').value = ""; renderCategoriesManager(); } }
-    function deleteCategory(cat) { if(categories.length <= 1) return; categories = categories.filter(c => c !== cat); renderCategoriesManager(); }
-    function renderCategoriesManager() { const list = document.getElementById('categoriesManagerList'); list.innerHTML = categories.map(c => `<div class="cat-item"><span>${c}</span><i class="fas fa-trash" style="color:var(--danger); cursor:pointer" onclick="deleteCategory('${c}')"></i></div>`).join(''); }
-    function saveAndSyncCats() { syncToCloud(); toggleView('main'); }
+    function clone(id) {
+        const o = orders.find(x => x.id == id);
+        if(!confirm("Cloner vers COUTURE et LOGO ?")) return;
+        ['COUTURE','LOGO'].forEach(d => {
+            let c = JSON.parse(JSON.stringify(o));
+            c.id = "ID-" + Date.now() + Math.floor(Math.random()*2000);
+            c.dept = d; c.status = 'w'; orders.push(c);
+        });
+        o.priority = "✅ Transféré"; sync();
+    }
+
+    function prepAdd() { 
+        document.getElementById('f-id').value = ""; 
+        document.getElementById('f-cat').innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join('');
+        toggleView('v-form'); 
+    }
+    function prepEdit(id) {
+        const o = orders.find(x => x.id == id);
+        document.getElementById('f-id').value = o.id;
+        document.getElementById('f-num').value = o.num;
+        document.getElementById('f-client').value = o.client;
+        document.getElementById('f-qty').value = o.qty;
+        document.getElementById('f-color').value = o.color;
+        document.getElementById('f-cat').innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join('');
+        document.getElementById('f-cat').value = o.cat;
+        toggleView('v-form');
+    }
+    function setDept(d) { curDept = d; document.querySelectorAll('.dept-btn').forEach(b => b.classList.toggle('active', b.innerText===d)); render(); }
+    function setSt(id, s) { orders.find(x => x.id == id).status = s; render(); sync(); }
+    function del(id) { if(confirm("Supprimer ?")) { orders = orders.filter(x => x.id != id); sync(); } }
+    function toggleView(v) { document.querySelectorAll('.view').forEach(e => e.classList.remove('active')); document.getElementById(v).classList.add('active'); }
 
     fetchData();
 </script>
