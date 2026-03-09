@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHIN SEKAI - FINAL</title>
+    <title>SHIN SEKAI - OPTIMIZED PRINT</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --p: #0f172a; --s: #3b82f6; --ok: #10b981; --warn: #f59e0b; --bg: #f1f5f9; }
@@ -19,10 +19,12 @@
         .tab { padding: 8px 15px; background: #e2e8f0; border-radius: 10px; border: none; white-space: nowrap; font-size: 0.75rem; font-weight: 700; color: #475569; cursor: pointer; }
         .tab.active { background: var(--p); color: white; }
         .add-cat-btn { background: var(--ok); color: white; border: none; border-radius: 10px; padding: 8px 12px; font-weight: bold; cursor: pointer; }
+
         .container { padding: 15px; max-width: 800px; margin: 0 auto; }
         .card { background: white; border-radius: 18px; padding: 18px; margin-bottom: 15px; position: relative; border-left: 8px solid #cbd5e1; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
         .card.status-in { border-left-color: var(--warn); background: linear-gradient(to right, #fffdf0, #fff); }
         .card.status-ok { border-left-color: var(--ok); background: linear-gradient(to right, #f0fff4, #fff); }
+        
         .order-num { position: absolute; top: -10px; left: 15px; background: var(--s); color: white; padding: 3px 10px; font-size: 0.7rem; font-weight: 900; border-radius: 6px; }
         .qty-badge { background: #eff6ff; color: var(--s); padding: 10px 15px; border-radius: 12px; font-weight: 900; font-size: 1.2rem; }
         .st-group { display: flex; gap: 5px; margin-top: 15px; }
@@ -31,21 +33,31 @@
         .st-btn.active.ok { background: var(--ok); color: white; border-color: var(--ok); }
         .st-btn.edit { background: #f8fafc; color: var(--p); }
 
+        /* --- OPTIMISATION IMPRESSION --- */
         @media print {
-            header, .fab, .st-group, .print-hide { display: none !important; }
+            header, .fab, .st-group, .print-hide, .order-num { display: none !important; }
             body { background: white !important; padding: 0; }
+            .container { max-width: 100% !important; padding: 0 !important; }
             .card { 
-                display: flex !important; flex-direction: row !important; align-items: center !important; justify-content: space-between !important;
-                border: 0.5px solid #eee !important; border-left: 10px solid #ccc !important;
-                margin-bottom: 2px !important; padding: 5px 15px !important; border-radius: 6px !important; height: 50px !important;
+                display: flex !important; flex-direction: row !important; align-items: center !important; 
+                border: none !important; border-bottom: 0.5px solid #ddd !important; border-left: 6px solid #ccc !important;
+                margin-bottom: 0 !important; padding: 2px 10px !important; border-radius: 0 !important; height: 38px !important;
             }
             .card.status-ok { border-left-color: #10b981 !important; background: #f0fff4 !important; -webkit-print-color-adjust: exact; }
             .card.status-in { border-left-color: #f59e0b !important; background: #fffdf0 !important; -webkit-print-color-adjust: exact; }
-            .qty-badge { background: none !important; border: none !important; font-size: 1rem !important; padding: 0 !important; font-weight: bold; }
-            .print-status { display: block !important; font-size: 0.7rem; font-weight: 800; text-align: right; width: 70px; }
+            
+            .client-info-box { flex: 1; display: flex; align-items: center; gap: 8px; overflow: hidden; }
+            .print-num { display: inline !important; font-size: 0.65rem; color: #64748b; font-weight: bold; }
+            .print-client { font-size: 0.85rem !important; font-weight: 800; white-space: nowrap; }
+            .print-color { font-size: 0.65rem !important; color: #475569; }
+            
+            .qty-badge { background: none !important; border: none !important; font-size: 0.85rem !important; padding: 0 !important; font-weight: 900; width: 100px; text-align: right; }
+            .print-status { display: block !important; font-size: 0.6rem; font-weight: 800; text-align: right; width: 60px; color: #334155; }
+            .anno-text { font-size: 0.6rem !important; margin: 0 0 0 10px !important; white-space: nowrap; }
         }
-        .print-status { display: none; }
+        .print-num, .print-status { display: none; }
         .anno-text { font-size: 0.75rem; color: #3b82f6; font-weight: 600; margin-top: 4px; font-style: italic; }
+
         .fab { position: fixed; bottom: 25px; right: 20px; width: 60px; height: 60px; border-radius: 20px; background: var(--s); color: white; border: none; font-size: 24px; box-shadow: 0 10px 20px rgba(59,130,246,0.3); }
         .view { display: none; } .view.active { display: block; }
         input, select { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 10px; font-family: inherit; }
@@ -121,7 +133,6 @@
         
         nav.innerHTML = categories.map(c => `<button class="tab ${curTab===c?'active':''}" onclick="curTab='${c}';render();" oncontextmenu="removeCat('${c}');return false;">${c}</button>`).join('');
 
-        // TRI AUTOMATIQUE PAR NUMÉRO ICI
         const filtered = orders.filter(o => o.dept === curDept && o.cat === curTab && (o.client.toLowerCase().includes(search) || o.num.toString().includes(search)))
                                .sort((a, b) => parseInt(a.num) - parseInt(b.num));
 
@@ -131,18 +142,21 @@
             div.className = `card status-${o.status}`;
             div.innerHTML = `
                 <div class="order-num">N° ${o.num}</div>
-                <div style="flex:1">
-                    <div style="font-weight:900; text-transform:uppercase;">${o.client}</div>
-                    <div style="font-size:0.7rem; color:#64748b;">${o.color || ''}</div>
-                    <div class="anno-text">${o.priority || ''}</div>
+                <div class="client-info-box">
+                    <span class="print-num">#${o.num}</span>
+                    <div style="display:flex; flex-direction:column;">
+                        <span class="print-client" style="text-transform:uppercase; font-weight:900;">${o.client}</span>
+                        <span class="print-color" style="font-size:0.7rem; color:#64748b;">${o.color || ''}</span>
+                    </div>
+                    <span class="anno-text">${o.priority || ''}</span>
                 </div>
-                <div class="qty-badge">${o.qty}</div>
+                <div class="qty-badge">${o.qty} <small style="font-size:0.5em; font-weight:bold;">${o.cat}</small></div>
                 <div class="print-status">${stTxt}</div>
                 <div class="st-group print-hide">
-                    <button class="st-btn ${o.status==='w'?'active':''}" onclick="setSt('${o.id}','w')">ATTENTE</button>
+                    <button class="st-btn ${o.status==='w'?'active':''}" onclick="setSt('${o.id}','w')">ATT</button>
                     <button class="st-btn in ${o.status==='in'?'active':''}" onclick="setSt('${o.id}','in')">COURS</button>
                     <button class="st-btn ok ${o.status==='ok'?'active':''}" onclick="setSt('${o.id}','ok')">FINI</button>
-                    <button class="st-btn edit" onclick="prepEdit('${o.id}')"><i class="fas fa-edit"></i> EDIT</button>
+                    <button class="st-btn edit" onclick="prepEdit('${o.id}')"><i class="fas fa-edit"></i></button>
                     <button class="st-btn" onclick="del('${o.id}')" style="color:red"><i class="fas fa-trash"></i></button>
                 </div>
             `;
