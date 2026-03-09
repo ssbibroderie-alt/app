@@ -17,13 +17,12 @@
         .dept-btn { background: none; border: none; color: #94a3b8; font-weight: 800; font-size: 0.7rem; cursor: pointer; padding: 10px; }
         .dept-btn.active { color: white; background: var(--s); border-radius: 8px; }
 
-        /* --- NOUVEAU STYLE DES BOUTONS DE CATEGORIES (Look "Blouse") --- */
         .cat-bar { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
         .nav-scroll { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; flex: 1; padding: 5px 0; }
         .tab { 
             padding: 8px 15px; 
-            background: #1e293b; /* Fond sombre comme Blouse */
-            color: #f8fafc; /* Texte blanc/clair */
+            background: #1e293b; 
+            color: #f8fafc; 
             border-radius: 10px; 
             border: 1px solid rgba(255,255,255,0.1); 
             white-space: nowrap; 
@@ -31,10 +30,10 @@
             font-weight: 700; 
             cursor: pointer;
             transition: all 0.2s;
-            opacity: 0.7; /* Légèrement transparent quand non sélectionné */
+            opacity: 0.7; 
         }
         .tab.active { 
-            background: var(--s); /* Bleu vif quand sélectionné pour bien le voir */
+            background: var(--s); 
             color: white; 
             opacity: 1;
             box-shadow: 0 4px 10px rgba(59,130,246,0.3);
@@ -149,8 +148,12 @@
         
         nav.innerHTML = categories.map(c => `<button class="tab ${curTab===c?'active':''}" onclick="curTab='${c}';render();" oncontextmenu="removeCat('${c}');return false;">${c}</button>`).join('');
 
-        const filtered = orders.filter(o => o.dept === curDept && o.cat === curTab && (o.client.toLowerCase().includes(search) || o.num.toString().includes(search)))
-                               .sort((a, b) => parseInt(a.num) - parseInt(b.num));
+        const filtered = orders.filter(o => {
+            const matchesSearch = o.client.toLowerCase().includes(search) || o.num.toString().includes(search);
+            const matchesCat = o.cat === curTab;
+            const matchesDept = o.dept.split(',').includes(curDept);
+            return matchesSearch && matchesCat && matchesDept;
+        }).sort((a, b) => parseInt(a.num) - parseInt(b.num));
 
         filtered.forEach(o => {
             const stTxt = o.status === 'ok' ? 'FINI' : (o.status === 'in' ? 'EN COURS' : 'ATTENTE');
@@ -171,13 +174,33 @@
                 <div class="st-group print-hide">
                     <button class="st-btn ${o.status==='w'?'active':''}" onclick="setSt('${o.id}','w')">ATT</button>
                     <button class="st-btn in ${o.status==='in'?'active':''}" onclick="setSt('${o.id}','in')">COURS</button>
-                    <button class="st-btn ok ${o.status==='ok'?'active':''}" onclick="setSt('${o.id}','ok')">FINI</button>
+                    <button class="st-btn ok" onclick="setSt('${o.id}','ok')">FINI <i class="fas fa-check-double"></i></button>
                     <button class="st-btn edit" onclick="prepEdit('${o.id}')"><i class="fas fa-edit"></i></button>
                     <button class="st-btn" onclick="del('${o.id}')" style="color:red"><i class="fas fa-trash"></i></button>
                 </div>
             `;
             list.appendChild(div);
         });
+    }
+
+    function setSt(id, s) {
+        const order = orders.find(x => x.id == id);
+        if (!order) return;
+
+        if (s === 'ok') {
+            if (order.dept === 'COUPE') {
+                order.dept = 'COUTURE,LOGO'; // Envoi partout sauf finition
+                order.status = 'w';
+            } else if (order.dept.includes('COUTURE') || order.dept.includes('LOGO')) {
+                order.dept = 'FINITION'; // Couture/Logo vers Finition
+                order.status = 'w';
+            } else {
+                order.status = 'ok'; // Finition vers état final
+            }
+        } else {
+            order.status = s;
+        }
+        render(); sync();
     }
 
     async function sync() {
@@ -234,7 +257,6 @@
         toggleView('v-form'); 
     }
     function setDept(d) { curDept = d; document.querySelectorAll('.dept-btn').forEach(b => b.classList.toggle('active', b.id==='b-'+d)); render(); }
-    function setSt(id, s) { orders.find(x => x.id == id).status = s; render(); sync(); }
     function del(id) { if(confirm("Supprimer cette commande ?")) { orders = orders.filter(x => x.id != id); sync(); } }
     function toggleView(v) { document.querySelectorAll('.view').forEach(e => e.classList.remove('active')); document.getElementById(v).classList.add('active'); }
     fetchData();
