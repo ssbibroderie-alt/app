@@ -3,48 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHIN SEKAI - GESTION PROD</title>
+    <title>SHIN SEKAI - SYSTÈME COMPLET</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --p: #0f172a; --s: #3b82f6; --ok: #10b981; --warn: #f59e0b; --bg: #f1f5f9; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding-bottom: 90px; }
-        header { background: var(--p); color: white; padding: 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-        .dept-nav { display: flex; justify-content: space-around; background: rgba(255,255,255,0.1); padding: 8px; border-radius: 12px; margin: 10px 0; overflow-x: auto; }
-        .dept-btn { background: none; border: none; color: #94a3b8; font-weight: 800; font-size: 0.7rem; cursor: pointer; padding: 8px; white-space: nowrap; }
+        header { background: var(--p); color: white; padding: 15px; position: sticky; top: 0; z-index: 1000; }
+        
+        /* Barre de recherche */
+        .search-box { background: rgba(255,255,255,0.1); border-radius: 10px; display: flex; align-items: center; padding: 5px 15px; margin-bottom: 10px; }
+        .search-box input { background: none; border: none; color: white; padding: 8px; width: 100%; outline: none; margin: 0; }
+        .search-box input::placeholder { color: #94a3b8; }
+
+        .dept-nav { display: flex; justify-content: space-around; background: rgba(255,255,255,0.1); padding: 8px; border-radius: 12px; margin-bottom: 10px; }
+        .dept-btn { background: none; border: none; color: #94a3b8; font-weight: 800; font-size: 0.7rem; cursor: pointer; padding: 8px; }
         .dept-btn.active { color: var(--ok); border-bottom: 3px solid var(--ok); }
-        .nav-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; scrollbar-width: none; }
-        .tab { padding: 8px 15px; background: #cbd5e1; border-radius: 10px; border: none; white-space: nowrap; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
+        
+        .nav-container { display: flex; align-items: center; gap: 8px; }
+        .nav-scroll { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; flex: 1; }
+        .tab { padding: 8px 12px; background: #cbd5e1; border-radius: 10px; border: none; white-space: nowrap; font-size: 0.75rem; font-weight: 700; cursor: pointer; position: relative; }
         .tab.active { background: var(--s); color: white; }
+        .btn-add-cat { background: var(--ok); color: white; border: none; border-radius: 8px; width: 35px; height: 35px; cursor: pointer; font-size: 1.2rem; }
+
         .container { padding: 15px; max-width: 800px; margin: 0 auto; }
-        .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-left: 8px solid #cbd5e1; }
+        .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; position: relative; border-left: 8px solid #cbd5e1; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .card.status-in { border-left-color: var(--warn); background-color: #fffbeb; }
         .card.status-ok { border-left-color: var(--ok); background-color: #f0fdf4; }
-        .order-num { position: absolute; top: -10px; left: 15px; background: var(--p); color: white; padding: 4px 12px; font-size: 0.75rem; font-weight: 800; border-radius: 8px; }
-        .qty { background: #eff6ff; color: var(--s); padding: 8px 15px; border-radius: 12px; font-weight: 900; font-size: 1.2rem; }
-        .st-group { display: flex; gap: 5px; margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px; }
-        .st-btn { flex: 1; padding: 10px 2px; border-radius: 8px; border: 1px solid #ddd; background: white; font-size: 0.65rem; font-weight: 700; cursor: pointer; }
+        .qty { background: #eff6ff; color: var(--s); padding: 8px 12px; border-radius: 10px; font-weight: 900; font-size: 1.1rem; }
+        .st-group { display: flex; gap: 5px; margin-top: 15px; }
+        .st-btn { flex: 1; padding: 10px 2px; border-radius: 8px; border: 1px solid #ddd; background: white; font-size: 0.6rem; font-weight: 700; cursor: pointer; }
         .st-btn.active.at { background: #64748b; color: white; }
         .st-btn.active.in { background: var(--warn); color: white; }
         .st-btn.active.ok { background: var(--ok); color: white; }
-        .fab { position: fixed; bottom: 25px; right: 20px; width: 60px; height: 60px; border-radius: 20px; background: var(--s); color: white; border: none; font-size: 24px; box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3); z-index: 100; }
+        
+        .fab { position: fixed; bottom: 25px; right: 20px; width: 60px; height: 60px; border-radius: 20px; background: var(--s); color: white; border: none; font-size: 24px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); cursor: pointer; }
         .view { display: none; } .view.active { display: block; }
-        input, select { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 10px; font-family: inherit; }
     </style>
 </head>
 <body>
 
 <header>
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-        <b>SHIN SEKAI <span id="sync-icon">●</span></b>
-        <button onclick="fetchData()" style="background:none; border:none; color:white;"><i class="fas fa-sync-alt"></i></button>
+    <div class="search-box">
+        <i class="fas fa-search" style="color:#94a3b8"></i>
+        <input type="text" id="searchInput" placeholder="Rechercher client ou N°..." oninput="render()">
+        <span id="sync-icon" style="margin-left:10px">●</span>
     </div>
+    
     <div class="dept-nav">
         <button class="dept-btn active" id="b-COUPE" onclick="setDept('COUPE')">COUPE</button>
         <button class="dept-btn" id="b-COUTURE" onclick="setDept('COUTURE')">COUTURE</button>
         <button class="dept-btn" id="b-LOGO" onclick="setDept('LOGO')">LOGO</button>
         <button class="dept-btn" id="b-FINITION" onclick="setDept('FINITION')">FINITION</button>
     </div>
-    <div class="nav-scroll" id="navTabs"></div>
+
+    <div class="nav-container">
+        <div class="nav-scroll" id="navTabs"></div>
+        <button class="btn-add-cat" onclick="addCategory()">+</button>
+    </div>
 </header>
 
 <div class="container">
@@ -52,16 +68,16 @@
     
     <div id="v-form" class="view">
         <div style="background: white; padding: 20px; border-radius: 20px;">
-            <h3>Fiche Commande</h3>
+            <h3 id="formTitle">Nouvelle Fiche</h3>
             <input type="hidden" id="f-id">
             <input type="number" id="f-num" placeholder="N° Commande">
-            <input type="text" id="f-client" placeholder="Client">
+            <input type="text" id="f-client" placeholder="Nom du Client">
             <input type="text" id="f-color" placeholder="Couleur">
-            <input type="text" id="f-priority" placeholder="Annotations / Notes">
+            <input type="text" id="f-priority" placeholder="Annotations">
             <input type="number" id="f-qty" placeholder="Quantité">
             <select id="f-cat"></select>
-            <button onclick="save()" id="btn-save" style="width:100%; padding:15px; background:var(--s); color:white; border:none; border-radius:10px; font-weight:bold;">ENREGISTRER</button>
-            <button onclick="toggleView('v-main')" style="width:100%; margin-top:10px; background:none; border:none; color:#64748b;">ANNULER</button>
+            <button onclick="save()" style="width:100%; padding:15px; background:var(--s); color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer;">ENREGISTRER</button>
+            <button onclick="toggleView('v-main')" style="width:100%; margin-top:10px; background:none; border:none; color:#64748b; cursor:pointer;">ANNULER</button>
         </div>
     </div>
 </div>
@@ -70,8 +86,8 @@
 
 <script>
     const URL = "https://script.google.com/macros/s/AKfycbyONYLIcVpucYTFYexBibNaZvW0EpIQFoYiSFnEaiKNKGwCHod1hb12mFNzmIy7FVGqfA/exec";
-    let orders = [], categories = ["POLOS","PANTALONS","JACKETS","JUPES","BERMUDAS","BLOUSONS","TENUE DE TRAVAIL"];
-    let curTab = "POLOS", curDept = 'COUPE', lock = false;
+    let orders = [], categories = ["POLOS","PANTALONS"];
+    let curTab = "", curDept = 'COUPE', lock = false;
 
     async function fetchData() {
         if(lock) return;
@@ -79,17 +95,15 @@
         try {
             const res = await fetch(URL);
             const data = await res.json();
-            
             const cItem = data.find(o => String(o.id) === "999");
             if(cItem) categories = JSON.parse(cItem.client);
-            
+            if(!curTab) curTab = categories[0];
+
             const unique = []; const seen = new Set();
             data.filter(o => String(o.id) !== "999").forEach(o => {
                 if(!seen.has(o.id)) {
-                    // Force le département en MAJUSCULES pour le filtrage
                     o.dept = (o.dept || "COUPE").toString().toUpperCase().trim();
-                    unique.push(o);
-                    seen.add(o.id);
+                    unique.push(o); seen.add(o.id);
                 }
             });
             orders = unique; render();
@@ -110,11 +124,21 @@
     function render() {
         const list = document.getElementById('orderList'); list.innerHTML = '';
         const nav = document.getElementById('navTabs');
-        if(!categories.includes(curTab)) curTab = categories[0];
-        nav.innerHTML = categories.map(c => `<button class="tab ${curTab===c?'active':''}" onclick="curTab='${c}';render();">${c}</button>`).join('');
+        const search = document.getElementById('searchInput').value.toLowerCase();
+        
+        nav.innerHTML = categories.map(c => `
+            <button class="tab ${curTab===c?'active':''}" 
+                    onclick="curTab='${c}';render();" 
+                    oncontextmenu="removeCategory('${c}');return false;">
+                ${c}
+            </button>`).join('');
 
-        // FILTRAGE STRICT PAR ATELIER ET CATEGORIE
-        const filtered = orders.filter(o => o.dept === curDept && o.cat === curTab);
+        const filtered = orders.filter(o => {
+            const matchesSearch = o.client.toLowerCase().includes(search) || o.num.toString().includes(search);
+            const matchesDept = o.dept === curDept;
+            const matchesCat = o.cat === curTab;
+            return matchesSearch && matchesDept && matchesCat;
+        });
 
         filtered.forEach(o => {
             const div = document.createElement('div');
@@ -122,11 +146,7 @@
             div.innerHTML = `
                 <div class="order-num">${o.num}</div>
                 <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div style="flex:1">
-                        <b style="font-size:1.1rem;">${o.client}</b><br>
-                        <span>${o.color || ''}</span><br>
-                        <i style="font-size:0.75rem; color:var(--s); font-weight:600;">${o.priority || ''}</i>
-                    </div>
+                    <div style="flex:1"><b>${o.client}</b><br><span>${o.color}</span><br><i style="font-size:0.7rem; color:var(--s)">${o.priority||''}</i></div>
                     <div class="qty">${o.qty}</div>
                 </div>
                 <div class="st-group">
@@ -136,27 +156,34 @@
                     <button class="st-btn" onclick="prepEdit('${o.id}')"><i class="fas fa-edit"></i></button>
                     <button class="st-btn" onclick="del('${o.id}')" style="color:red"><i class="fas fa-trash"></i></button>
                 </div>
-                ${(curDept==='COUPE' && o.status==='ok')?`<button onclick="cloneProd('${o.id}')" style="width:100%;margin-top:10px;padding:12px;border-radius:10px;border:none;background:var(--p);color:white;font-weight:bold;cursor:pointer;">ENVOYER EN PROD 🚀</button>`:''}
+                ${(curDept==='COUPE' && o.status==='ok')?`<button onclick="cloneProd('${o.id}')" style="width:100%;margin-top:10px;padding:12px;background:var(--p);color:white;border:none;border-radius:10px;font-weight:bold;cursor:pointer;">LANCER EN PROD 🚀</button>`:''}
             `;
             list.appendChild(div);
         });
     }
 
+    function addCategory() {
+        const name = prompt("Nom de la nouvelle catégorie :");
+        if(name) { categories.push(name.toUpperCase()); curTab = name.toUpperCase(); sync(); render(); }
+    }
+
+    function removeCategory(cat) {
+        if(confirm("Supprimer la catégorie '" + cat + "' ?")) {
+            categories = categories.filter(c => c !== cat);
+            curTab = categories[0] || ""; sync(); render();
+        }
+    }
+
     function cloneProd(id) {
         const o = orders.find(x => x.id == id);
         if(!confirm("Cloner vers Couture, Logo et Finition ?")) return;
-
-        ["COUTURE", "LOGO", "FINITION"].forEach(atelier => {
+        ["COUTURE", "LOGO", "FINITION"].forEach(at => {
             const copy = JSON.parse(JSON.stringify(o));
-            copy.id = "ID-" + Date.now() + "-" + atelier + "-" + Math.floor(Math.random()*1000);
-            copy.dept = atelier;
-            copy.status = 'w';
-            copy.priority = "Vient de la Coupe";
+            copy.id = "ID-" + Date.now() + "-" + at + "-" + Math.floor(Math.random()*1000);
+            copy.dept = at; copy.status = 'w';
             orders.push(copy);
         });
-
-        o.priority = "✅ Transféré en Prod";
-        render(); sync();
+        o.priority = "✅ Envoyé"; render(); sync();
     }
 
     function save() {
@@ -177,22 +204,30 @@
         toggleView('v-main'); sync();
     }
 
-    function setDept(d) { 
-        curDept = d; 
-        document.querySelectorAll('.dept-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('b-'+d).classList.add('active');
-        render(); 
-    }
+    function setDept(d) { curDept = d; document.querySelectorAll('.dept-btn').forEach(b => b.classList.toggle('active', b.id==='b-'+d)); render(); }
     function setSt(id, s) { orders.find(x => x.id == id).status = s; render(); sync(); }
-    function del(id) { if(confirm("Supprimer ?")) { orders = orders.filter(x => x.id != id); sync(); } }
+    function del(id) { if(confirm("Supprimer cette fiche ?")) { orders = orders.filter(x => x.id != id); sync(); } }
     function toggleView(v) { document.querySelectorAll('.view').forEach(e => e.classList.remove('active')); document.getElementById(v).classList.add('active'); }
-    function prepAdd() { document.getElementById('f-id').value = ""; document.getElementById('f-cat').innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join(''); toggleView('v-form'); }
+    
+    function prepAdd() { 
+        document.getElementById('f-id').value = ""; 
+        document.getElementById('formTitle').innerText = "Nouvelle Fiche";
+        document.getElementById('f-cat').innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join('');
+        toggleView('v-form'); 
+    }
+
     function prepEdit(id) {
         const o = orders.find(x => x.id == id);
-        document.getElementById('f-id').value = o.id; document.getElementById('f-num').value = o.num; document.getElementById('f-client').value = o.client;
-        document.getElementById('f-qty').value = o.qty; document.getElementById('f-color').value = o.color; document.getElementById('f-priority').value = o.priority || "";
+        document.getElementById('f-id').value = o.id;
+        document.getElementById('f-num').value = o.num;
+        document.getElementById('f-client').value = o.client;
+        document.getElementById('f-qty').value = o.qty;
+        document.getElementById('f-color').value = o.color;
+        document.getElementById('f-priority').value = o.priority || "";
         document.getElementById('f-cat').innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join('');
-        document.getElementById('f-cat').value = o.cat; toggleView('v-form');
+        document.getElementById('f-cat').value = o.cat;
+        document.getElementById('formTitle').innerText = "Modifier Fiche";
+        toggleView('v-form');
     }
 
     fetchData();
