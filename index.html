@@ -9,35 +9,28 @@
         :root { --p: #0f172a; --s: #3b82f6; --ok: #10b981; --warn: #f59e0b; --bg: #f1f5f9; }
         body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 90px; color: #1e293b; }
         header { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; padding: 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
-        
         .search-box { background: rgba(255,255,255,0.1); border-radius: 12px; display: flex; align-items: center; padding: 8px 15px; margin: 10px 0; border: 1px solid rgba(255,255,255,0.1); }
         .search-box input { background: none; border: none; color: white; width: 100%; outline: none; }
-        
         .dept-nav { display: flex; justify-content: space-around; background: rgba(0,0,0,0.2); padding: 5px; border-radius: 12px; margin-bottom: 10px; }
         .dept-btn { background: none; border: none; color: #94a3b8; font-weight: 800; font-size: 0.7rem; cursor: pointer; padding: 10px; }
         .dept-btn.active { color: white; background: var(--s); border-radius: 8px; }
-
         .cat-bar { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
         .nav-scroll { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; flex: 1; padding: 5px 0; }
         .tab { padding: 8px 15px; background: #e2e8f0; border-radius: 10px; border: none; white-space: nowrap; font-size: 0.75rem; font-weight: 700; color: #475569; cursor: pointer; }
         .tab.active { background: var(--p); color: white; }
         .add-cat-btn { background: var(--ok); color: white; border: none; border-radius: 10px; padding: 8px 12px; font-weight: bold; cursor: pointer; }
-
         .container { padding: 15px; max-width: 800px; margin: 0 auto; }
         .card { background: white; border-radius: 18px; padding: 18px; margin-bottom: 15px; position: relative; border-left: 8px solid #cbd5e1; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
         .card.status-in { border-left-color: var(--warn); background: linear-gradient(to right, #fffdf0, #fff); }
         .card.status-ok { border-left-color: var(--ok); background: linear-gradient(to right, #f0fff4, #fff); }
-        
         .order-num { position: absolute; top: -10px; left: 15px; background: var(--s); color: white; padding: 3px 10px; font-size: 0.7rem; font-weight: 900; border-radius: 6px; }
         .qty-badge { background: #eff6ff; color: var(--s); padding: 10px 15px; border-radius: 12px; font-weight: 900; font-size: 1.2rem; }
-        
         .st-group { display: flex; gap: 5px; margin-top: 15px; }
         .st-btn { flex: 1; padding: 10px 2px; border-radius: 8px; border: 1px solid #e2e8f0; background: white; font-size: 0.6rem; font-weight: 800; cursor: pointer; }
         .st-btn.active.in { background: var(--warn); color: white; border-color: var(--warn); }
         .st-btn.active.ok { background: var(--ok); color: white; border-color: var(--ok); }
         .st-btn.edit { background: #f8fafc; color: var(--p); }
 
-        /* IMPRESSION */
         @media print {
             header, .fab, .st-group, .print-hide { display: none !important; }
             body { background: white !important; padding: 0; }
@@ -53,7 +46,6 @@
         }
         .print-status { display: none; }
         .anno-text { font-size: 0.75rem; color: #3b82f6; font-weight: 600; margin-top: 4px; font-style: italic; }
-
         .fab { position: fixed; bottom: 25px; right: 20px; width: 60px; height: 60px; border-radius: 20px; background: var(--s); color: white; border: none; font-size: 24px; box-shadow: 0 10px 20px rgba(59,130,246,0.3); }
         .view { display: none; } .view.active { display: block; }
         input, select { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 10px; font-family: inherit; }
@@ -84,7 +76,6 @@
 
 <div class="container">
     <div id="v-main" class="view active"><div id="orderList"></div></div>
-    
     <div id="v-form" class="view">
         <div style="background:white; padding:20px; border-radius:20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
             <h3 id="formTitle">Fiche Commande</h3>
@@ -117,11 +108,7 @@
             const cItem = data.find(o => String(o.id) === "999");
             if(cItem) categories = JSON.parse(cItem.client);
             if(!curTab) curTab = categories[0];
-            
-            orders = data.filter(o => String(o.id) !== "999").map(o => ({
-                ...o, 
-                dept: (o.dept || "COUPE").toString().toUpperCase().trim()
-            }));
+            orders = data.filter(o => String(o.id) !== "999").map(o => ({...o, dept: (o.dept || "COUPE").toString().toUpperCase().trim()}));
             render();
             document.getElementById('sync-icon').style.color = "#10b981";
         } catch(e) { console.error(e); }
@@ -134,7 +121,9 @@
         
         nav.innerHTML = categories.map(c => `<button class="tab ${curTab===c?'active':''}" onclick="curTab='${c}';render();" oncontextmenu="removeCat('${c}');return false;">${c}</button>`).join('');
 
-        const filtered = orders.filter(o => o.dept === curDept && o.cat === curTab && (o.client.toLowerCase().includes(search) || o.num.toString().includes(search)));
+        // TRI AUTOMATIQUE PAR NUMÉRO ICI
+        const filtered = orders.filter(o => o.dept === curDept && o.cat === curTab && (o.client.toLowerCase().includes(search) || o.num.toString().includes(search)))
+                               .sort((a, b) => parseInt(a.num) - parseInt(b.num));
 
         filtered.forEach(o => {
             const stTxt = o.status === 'ok' ? 'FINI' : (o.status === 'in' ? 'EN COURS' : 'ATTENTE');
@@ -176,13 +165,11 @@
         if(n) { categories.push(n.toUpperCase()); curTab = n.toUpperCase(); sync(); render(); }
     }
     function removeCat(c) {
-        if(confirm("Supprimer définitivement la catégorie "+c+" ?")) { categories = categories.filter(x => x!==c); curTab = categories[0]; sync(); render(); }
+        if(confirm("Supprimer la catégorie "+c+" ?")) { categories = categories.filter(x => x!==c); curTab = categories[0]; sync(); render(); }
     }
-
     function save() {
         const id = document.getElementById('f-id').value;
         const exist = id ? orders.find(x => x.id == id) : null;
-        
         const newO = {
             id: id || "ID-" + Date.now() + Math.floor(Math.random()*1000),
             num: document.getElementById('f-num').value,
@@ -194,17 +181,9 @@
             dept: exist ? exist.dept : curDept,
             status: exist ? exist.status : 'w'
         };
-
-        if(id) {
-            orders = orders.map(x => x.id == id ? newO : x);
-        } else {
-            orders.push(newO);
-        }
-        
-        toggleView('v-main');
-        sync();
+        if(id) orders = orders.map(x => x.id == id ? newO : x); else orders.push(newO);
+        toggleView('v-main'); sync();
     }
-
     function prepEdit(id) {
         const o = orders.find(x => x.id == id);
         if(!o) return;
@@ -214,29 +193,20 @@
         document.getElementById('f-color').value = o.color;
         document.getElementById('f-priority').value = o.priority || "";
         document.getElementById('f-qty').value = o.qty;
-        
         document.getElementById('f-cat').innerHTML = categories.map(c => `<option value="${c}" ${c===o.cat?'selected':''}>${c}</option>`).join('');
         document.getElementById('formTitle').innerText = "Modifier la Fiche";
         toggleView('v-form');
     }
-
     function prepAdd() { 
-        document.getElementById('f-id').value = ""; 
-        document.getElementById('f-num').value = "";
-        document.getElementById('f-client').value = "";
-        document.getElementById('f-color').value = "";
-        document.getElementById('f-priority').value = "";
-        document.getElementById('f-qty').value = "";
+        document.getElementById('f-id').value = ""; document.getElementById('f-num').value = ""; document.getElementById('f-client').value = ""; document.getElementById('f-color').value = ""; document.getElementById('f-priority').value = ""; document.getElementById('f-qty').value = "";
         document.getElementById('f-cat').innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join(''); 
         document.getElementById('formTitle').innerText = "Nouvelle Fiche";
         toggleView('v-form'); 
     }
-
     function setDept(d) { curDept = d; document.querySelectorAll('.dept-btn').forEach(b => b.classList.toggle('active', b.id==='b-'+d)); render(); }
     function setSt(id, s) { orders.find(x => x.id == id).status = s; render(); sync(); }
     function del(id) { if(confirm("Supprimer cette commande ?")) { orders = orders.filter(x => x.id != id); sync(); } }
     function toggleView(v) { document.querySelectorAll('.view').forEach(e => e.classList.remove('active')); document.getElementById(v).classList.add('active'); }
-
     fetchData();
 </script>
 </body>
