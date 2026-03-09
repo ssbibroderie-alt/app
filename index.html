@@ -3,21 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHIN SEKAI - OPTIMIZED PRINT</title>
+    <title>SHIN SEKAI - STYLISH DESIGN</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --p: #0f172a; --s: #3b82f6; --ok: #10b981; --warn: #f59e0b; --bg: #f1f5f9; }
         body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 90px; color: #1e293b; }
         header { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; padding: 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+        
         .search-box { background: rgba(255,255,255,0.1); border-radius: 12px; display: flex; align-items: center; padding: 8px 15px; margin: 10px 0; border: 1px solid rgba(255,255,255,0.1); }
         .search-box input { background: none; border: none; color: white; width: 100%; outline: none; }
+        
         .dept-nav { display: flex; justify-content: space-around; background: rgba(0,0,0,0.2); padding: 5px; border-radius: 12px; margin-bottom: 10px; }
         .dept-btn { background: none; border: none; color: #94a3b8; font-weight: 800; font-size: 0.7rem; cursor: pointer; padding: 10px; }
         .dept-btn.active { color: white; background: var(--s); border-radius: 8px; }
+
+        /* --- NOUVEAU STYLE DES BOUTONS DE CATEGORIES (Look "Blouse") --- */
         .cat-bar { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
         .nav-scroll { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; flex: 1; padding: 5px 0; }
-        .tab { padding: 8px 15px; background: #e2e8f0; border-radius: 10px; border: none; white-space: nowrap; font-size: 0.75rem; font-weight: 700; color: #475569; cursor: pointer; }
-        .tab.active { background: var(--p); color: white; }
+        .tab { 
+            padding: 8px 15px; 
+            background: #1e293b; /* Fond sombre comme Blouse */
+            color: #f8fafc; /* Texte blanc/clair */
+            border-radius: 10px; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            white-space: nowrap; 
+            font-size: 0.72rem; 
+            font-weight: 700; 
+            cursor: pointer;
+            transition: all 0.2s;
+            opacity: 0.7; /* Légèrement transparent quand non sélectionné */
+        }
+        .tab.active { 
+            background: var(--s); /* Bleu vif quand sélectionné pour bien le voir */
+            color: white; 
+            opacity: 1;
+            box-shadow: 0 4px 10px rgba(59,130,246,0.3);
+        }
         .add-cat-btn { background: var(--ok); color: white; border: none; border-radius: 10px; padding: 8px 12px; font-weight: bold; cursor: pointer; }
 
         .container { padding: 15px; max-width: 800px; margin: 0 auto; }
@@ -33,7 +54,6 @@
         .st-btn.active.ok { background: var(--ok); color: white; border-color: var(--ok); }
         .st-btn.edit { background: #f8fafc; color: var(--p); }
 
-        /* --- OPTIMISATION IMPRESSION --- */
         @media print {
             header, .fab, .st-group, .print-hide, .order-num { display: none !important; }
             body { background: white !important; padding: 0; }
@@ -45,19 +65,15 @@
             }
             .card.status-ok { border-left-color: #10b981 !important; background: #f0fff4 !important; -webkit-print-color-adjust: exact; }
             .card.status-in { border-left-color: #f59e0b !important; background: #fffdf0 !important; -webkit-print-color-adjust: exact; }
-            
             .client-info-box { flex: 1; display: flex; align-items: center; gap: 8px; overflow: hidden; }
             .print-num { display: inline !important; font-size: 0.65rem; color: #64748b; font-weight: bold; }
             .print-client { font-size: 0.85rem !important; font-weight: 800; white-space: nowrap; }
             .print-color { font-size: 0.65rem !important; color: #475569; }
-            
             .qty-badge { background: none !important; border: none !important; font-size: 0.85rem !important; padding: 0 !important; font-weight: 900; width: 100px; text-align: right; }
             .print-status { display: block !important; font-size: 0.6rem; font-weight: 800; text-align: right; width: 60px; color: #334155; }
-            .anno-text { font-size: 0.6rem !important; margin: 0 0 0 10px !important; white-space: nowrap; }
         }
         .print-num, .print-status { display: none; }
         .anno-text { font-size: 0.75rem; color: #3b82f6; font-weight: 600; margin-top: 4px; font-style: italic; }
-
         .fab { position: fixed; bottom: 25px; right: 20px; width: 60px; height: 60px; border-radius: 20px; background: var(--s); color: white; border: none; font-size: 24px; box-shadow: 0 10px 20px rgba(59,130,246,0.3); }
         .view { display: none; } .view.active { display: block; }
         input, select { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 10px; font-family: inherit; }
