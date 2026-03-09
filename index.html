@@ -3,48 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHIN SEKAI - STYLISH DESIGN</title>
+    <title>SHIN SEKAI - GESTION MÈRE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --p: #0f172a; --s: #3b82f6; --ok: #10b981; --warn: #f59e0b; --bg: #f1f5f9; }
         body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 90px; color: #1e293b; }
         header { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; padding: 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
-        
         .search-box { background: rgba(255,255,255,0.1); border-radius: 12px; display: flex; align-items: center; padding: 8px 15px; margin: 10px 0; border: 1px solid rgba(255,255,255,0.1); }
         .search-box input { background: none; border: none; color: white; width: 100%; outline: none; }
-        
         .dept-nav { display: flex; justify-content: space-around; background: rgba(0,0,0,0.2); padding: 5px; border-radius: 12px; margin-bottom: 10px; }
         .dept-btn { background: none; border: none; color: #94a3b8; font-weight: 800; font-size: 0.7rem; cursor: pointer; padding: 10px; }
         .dept-btn.active { color: white; background: var(--s); border-radius: 8px; }
-
         .cat-bar { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
         .nav-scroll { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; flex: 1; padding: 5px 0; }
-        .tab { 
-            padding: 8px 15px; 
-            background: #1e293b; 
-            color: #f8fafc; 
-            border-radius: 10px; 
-            border: 1px solid rgba(255,255,255,0.1); 
-            white-space: nowrap; 
-            font-size: 0.72rem; 
-            font-weight: 700; 
-            cursor: pointer;
-            transition: all 0.2s;
-            opacity: 0.7; 
-        }
-        .tab.active { 
-            background: var(--s); 
-            color: white; 
-            opacity: 1;
-            box-shadow: 0 4px 10px rgba(59,130,246,0.3);
-        }
+        .tab { padding: 8px 15px; background: #1e293b; color: #f8fafc; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); white-space: nowrap; font-size: 0.72rem; font-weight: 700; cursor: pointer; transition: all 0.2s; opacity: 0.7; }
+        .tab.active { background: var(--s); color: white; opacity: 1; box-shadow: 0 4px 10px rgba(59,130,246,0.3); }
         .add-cat-btn { background: var(--ok); color: white; border: none; border-radius: 10px; padding: 8px 12px; font-weight: bold; cursor: pointer; }
-
         .container { padding: 15px; max-width: 800px; margin: 0 auto; }
         .card { background: white; border-radius: 18px; padding: 18px; margin-bottom: 15px; position: relative; border-left: 8px solid #cbd5e1; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
         .card.status-in { border-left-color: var(--warn); background: linear-gradient(to right, #fffdf0, #fff); }
         .card.status-ok { border-left-color: var(--ok); background: linear-gradient(to right, #f0fff4, #fff); }
-        
         .order-num { position: absolute; top: -10px; left: 15px; background: var(--s); color: white; padding: 3px 10px; font-size: 0.7rem; font-weight: 900; border-radius: 6px; }
         .qty-badge { background: #eff6ff; color: var(--s); padding: 10px 15px; border-radius: 12px; font-weight: 900; font-size: 1.2rem; }
         .st-group { display: flex; gap: 5px; margin-top: 15px; }
@@ -52,30 +30,11 @@
         .st-btn.active.in { background: var(--warn); color: white; border-color: var(--warn); }
         .st-btn.active.ok { background: var(--ok); color: white; border-color: var(--ok); }
         .st-btn.edit { background: #f8fafc; color: var(--p); }
-
-        @media print {
-            header, .fab, .st-group, .print-hide, .order-num { display: none !important; }
-            body { background: white !important; padding: 0; }
-            .container { max-width: 100% !important; padding: 0 !important; }
-            .card { 
-                display: flex !important; flex-direction: row !important; align-items: center !important; 
-                border: none !important; border-bottom: 0.5px solid #ddd !important; border-left: 6px solid #ccc !important;
-                margin-bottom: 0 !important; padding: 2px 10px !important; border-radius: 0 !important; height: 38px !important;
-            }
-            .card.status-ok { border-left-color: #10b981 !important; background: #f0fff4 !important; -webkit-print-color-adjust: exact; }
-            .card.status-in { border-left-color: #f59e0b !important; background: #fffdf0 !important; -webkit-print-color-adjust: exact; }
-            .client-info-box { flex: 1; display: flex; align-items: center; gap: 8px; overflow: hidden; }
-            .print-num { display: inline !important; font-size: 0.65rem; color: #64748b; font-weight: bold; }
-            .print-client { font-size: 0.85rem !important; font-weight: 800; white-space: nowrap; }
-            .print-color { font-size: 0.65rem !important; color: #475569; }
-            .qty-badge { background: none !important; border: none !important; font-size: 0.85rem !important; padding: 0 !important; font-weight: 900; width: 100px; text-align: right; }
-            .print-status { display: block !important; font-size: 0.6rem; font-weight: 800; text-align: right; width: 60px; color: #334155; }
-        }
-        .print-num, .print-status { display: none; }
         .anno-text { font-size: 0.75rem; color: #3b82f6; font-weight: 600; margin-top: 4px; font-style: italic; }
         .fab { position: fixed; bottom: 25px; right: 20px; width: 60px; height: 60px; border-radius: 20px; background: var(--s); color: white; border: none; font-size: 24px; box-shadow: 0 10px 20px rgba(59,130,246,0.3); }
         .view { display: none; } .view.active { display: block; }
-        input, select { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 10px; font-family: inherit; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 10px; }
+        @media print { .fab, .st-group, header { display: none !important; } }
     </style>
 </head>
 <body>
@@ -84,8 +43,8 @@
     <div style="display:flex; justify-content:space-between; align-items:center;">
         <b style="font-size:1.2rem;">SHIN SEKAI <span id="sync-icon">●</span></b>
         <div style="display:flex; gap:8px;">
-            <button onclick="window.print()" style="background:rgba(255,255,255,0.2); border:none; color:white; width:35px; height:35px; border-radius:8px;"><i class="fas fa-print"></i></button>
-            <button onclick="fetchData()" style="background:none; border:none; color:white; font-size:1.2rem;"><i class="fas fa-sync-alt"></i></button>
+            <button onclick="window.print()" style="background:rgba(255,255,255,0.2); border:none; color:white; border-radius:8px; padding:5px;"><i class="fas fa-print"></i></button>
+            <button onclick="fetchData()" style="background:none; border:none; color:white;"><i class="fas fa-sync-alt"></i></button>
         </div>
     </div>
     <div class="search-box"><input type="text" id="searchInput" placeholder="Recherche..." oninput="render()"></div>
@@ -104,17 +63,17 @@
 <div class="container">
     <div id="v-main" class="view active"><div id="orderList"></div></div>
     <div id="v-form" class="view">
-        <div style="background:white; padding:20px; border-radius:20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+        <div style="background:white; padding:20px; border-radius:20px;">
             <h3 id="formTitle">Fiche Commande</h3>
             <input type="hidden" id="f-id">
             <input type="number" id="f-num" placeholder="Numéro Commande">
             <input type="text" id="f-client" placeholder="Client">
-            <input type="text" id="f-color" placeholder="Désignation / Couleur">
-            <input type="text" id="f-priority" placeholder="Annotations (Notes)">
+            <input type="text" id="f-color" placeholder="Couleur">
+            <input type="text" id="f-priority" placeholder="Annotations">
             <input type="number" id="f-qty" placeholder="Quantité">
             <select id="f-cat"></select>
-            <button onclick="save()" style="width:100%; padding:15px; background:var(--s); color:white; border:none; border-radius:12px; font-weight:bold; font-size:1rem;">ENREGISTRER</button>
-            <button onclick="toggleView('v-main')" style="width:100%; margin-top:10px; background:none; border:none; color:#64748b; font-weight:bold;">ANNULER</button>
+            <button onclick="save()" style="width:100%; padding:15px; background:var(--s); color:white; border:none; border-radius:12px;">ENREGISTRER</button>
+            <button onclick="toggleView('v-main')" style="width:100%; margin-top:10px; background:none; border:none;">ANNULER</button>
         </div>
     </div>
 </div>
@@ -146,35 +105,26 @@
         const nav = document.getElementById('navTabs');
         const search = document.getElementById('searchInput').value.toLowerCase();
         
-        nav.innerHTML = categories.map(c => `<button class="tab ${curTab===c?'active':''}" onclick="curTab='${c}';render();" oncontextmenu="removeCat('${c}');return false;">${c}</button>`).join('');
+        nav.innerHTML = categories.map(c => `<button class="tab ${curTab===c?'active':''}" onclick="curTab='${c}';render();">${c}</button>`).join('');
 
-        const filtered = orders.filter(o => {
-            const matchesSearch = o.client.toLowerCase().includes(search) || o.num.toString().includes(search);
-            const matchesCat = o.cat === curTab;
-            const matchesDept = o.dept.split(',').includes(curDept);
-            return matchesSearch && matchesCat && matchesDept;
-        }).sort((a, b) => parseInt(a.num) - parseInt(b.num));
+        const filtered = orders.filter(o => o.dept === curDept && o.cat === curTab && (o.client.toLowerCase().includes(search) || o.num.toString().includes(search)))
+                               .sort((a, b) => parseInt(a.num) - parseInt(b.num));
 
         filtered.forEach(o => {
-            const stTxt = o.status === 'ok' ? 'FINI' : (o.status === 'in' ? 'EN COURS' : 'ATTENTE');
             const div = document.createElement('div');
             div.className = `card status-${o.status}`;
             div.innerHTML = `
                 <div class="order-num">N° ${o.num}</div>
-                <div class="client-info-box">
-                    <span class="print-num">#${o.num}</span>
-                    <div style="display:flex; flex-direction:column;">
-                        <span class="print-client" style="text-transform:uppercase; font-weight:900;">${o.client}</span>
-                        <span class="print-color" style="font-size:0.7rem; color:#64748b;">${o.color || ''}</span>
-                    </div>
+                <div style="flex:1">
+                    <div style="font-weight:900; text-transform:uppercase;">${o.client}</div>
+                    <div style="font-size:0.7rem; color:#64748b;">${o.color || ''}</div>
                     <span class="anno-text">${o.priority || ''}</span>
                 </div>
-                <div class="qty-badge">${o.qty} <small style="font-size:0.5em; font-weight:bold;">${o.cat}</small></div>
-                <div class="print-status">${stTxt}</div>
-                <div class="st-group print-hide">
+                <div class="qty-badge">${o.qty}</div>
+                <div class="st-group">
                     <button class="st-btn ${o.status==='w'?'active':''}" onclick="setSt('${o.id}','w')">ATT</button>
                     <button class="st-btn in ${o.status==='in'?'active':''}" onclick="setSt('${o.id}','in')">COURS</button>
-                    <button class="st-btn ok" onclick="setSt('${o.id}','ok')">FINI <i class="fas fa-check-double"></i></button>
+                    <button class="st-btn ok ${o.status==='ok'?'active':''}" onclick="handleFini('${o.id}')">FINI <i class="fas fa-copy"></i></button>
                     <button class="st-btn edit" onclick="prepEdit('${o.id}')"><i class="fas fa-edit"></i></button>
                     <button class="st-btn" onclick="del('${o.id}')" style="color:red"><i class="fas fa-trash"></i></button>
                 </div>
@@ -183,25 +133,31 @@
         });
     }
 
-    function setSt(id, s) {
-        const order = orders.find(x => x.id == id);
-        if (!order) return;
+    // --- LOGIQUE DE COPIE ---
+    function handleFini(id) {
+        const o = orders.find(x => x.id == id);
+        if (!o) return;
 
-        if (s === 'ok') {
-            if (order.dept === 'COUPE') {
-                order.dept = 'COUTURE,LOGO'; // Envoi partout sauf finition
-                order.status = 'w';
-            } else if (order.dept.includes('COUTURE') || order.dept.includes('LOGO')) {
-                order.dept = 'FINITION'; // Couture/Logo vers Finition
-                order.status = 'w';
-            } else {
-                order.status = 'ok'; // Finition vers état final
-            }
-        } else {
-            order.status = s;
+        // On marque la fiche actuelle comme FINIE
+        o.status = 'ok';
+
+        // Si on est en COUPE, on crée des COPIES pour Couture et Logo
+        if (o.dept === 'COUPE') {
+            const copyCouture = {...o, id: "CP-" + Date.now() + "-1", dept: 'COUTURE', status: 'w'};
+            const copyLogo = {...o, id: "CP-" + Date.now() + "-2", dept: 'LOGO', status: 'w'};
+            orders.push(copyCouture, copyLogo);
+        } 
+        // Si on est en COUTURE ou LOGO, on crée une COPIE pour Finition
+        else if (o.dept === 'COUTURE' || o.dept === 'LOGO') {
+            const copyFinition = {...o, id: "CP-" + Date.now() + "-3", dept: 'FINITION', status: 'w'};
+            orders.push(copyFinition);
         }
-        render(); sync();
+
+        render();
+        sync();
     }
+
+    function setSt(id, s) { orders.find(x => x.id == id).status = s; render(); sync(); }
 
     async function sync() {
         if(lock) return; lock = true;
@@ -213,13 +169,6 @@
         } catch(e) { lock = false; }
     }
 
-    function addCategory() {
-        const n = prompt("Nom de la nouvelle catégorie :");
-        if(n) { categories.push(n.toUpperCase()); curTab = n.toUpperCase(); sync(); render(); }
-    }
-    function removeCat(c) {
-        if(confirm("Supprimer la catégorie "+c+" ?")) { categories = categories.filter(x => x!==c); curTab = categories[0]; sync(); render(); }
-    }
     function save() {
         const id = document.getElementById('f-id').value;
         const exist = id ? orders.find(x => x.id == id) : null;
@@ -237,9 +186,9 @@
         if(id) orders = orders.map(x => x.id == id ? newO : x); else orders.push(newO);
         toggleView('v-main'); sync();
     }
+
     function prepEdit(id) {
         const o = orders.find(x => x.id == id);
-        if(!o) return;
         document.getElementById('f-id').value = o.id;
         document.getElementById('f-num').value = o.num;
         document.getElementById('f-client').value = o.client;
@@ -247,18 +196,19 @@
         document.getElementById('f-priority').value = o.priority || "";
         document.getElementById('f-qty').value = o.qty;
         document.getElementById('f-cat').innerHTML = categories.map(c => `<option value="${c}" ${c===o.cat?'selected':''}>${c}</option>`).join('');
-        document.getElementById('formTitle').innerText = "Modifier la Fiche";
         toggleView('v-form');
     }
+
     function prepAdd() { 
         document.getElementById('f-id').value = ""; document.getElementById('f-num').value = ""; document.getElementById('f-client').value = ""; document.getElementById('f-color').value = ""; document.getElementById('f-priority').value = ""; document.getElementById('f-qty').value = "";
         document.getElementById('f-cat').innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join(''); 
-        document.getElementById('formTitle').innerText = "Nouvelle Fiche";
         toggleView('v-form'); 
     }
+
     function setDept(d) { curDept = d; document.querySelectorAll('.dept-btn').forEach(b => b.classList.toggle('active', b.id==='b-'+d)); render(); }
-    function del(id) { if(confirm("Supprimer cette commande ?")) { orders = orders.filter(x => x.id != id); sync(); } }
+    function del(id) { if(confirm("Supprimer ?")) { orders = orders.filter(x => x.id != id); sync(); } }
     function toggleView(v) { document.querySelectorAll('.view').forEach(e => e.classList.remove('active')); document.getElementById(v).classList.add('active'); }
+    function addCategory() { const n = prompt("Nom :"); if(n) { categories.push(n.toUpperCase()); curTab = n.toUpperCase(); sync(); render(); } }
     fetchData();
 </script>
 </body>
