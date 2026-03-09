@@ -3,37 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHIN SEKAI - FIX FINAL</title>
+    <title>SHIN SEKAI - FIX COULEURS & NOTES</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --p: #0f172a; --s: #3b82f6; --ok: #10b981; --warn: #f59e0b; --bg: #f1f5f9; }
+        :root { 
+            --p: #0f172a; --s: #3b82f6; --ok: #10b981; --warn: #f59e0b; --bg: #f1f5f9;
+            --text-s: #64748b;
+        }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; }
+        
         header { background: var(--p); color: white; padding: 15px; position: sticky; top: 0; z-index: 1000; }
         .dept-nav { display: flex; justify-content: space-around; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 12px; margin: 10px 0; }
         .dept-btn { background: none; border: none; color: #94a3b8; font-weight: 800; font-size: 0.7rem; cursor: pointer; }
         .dept-btn.active { color: var(--ok); border-bottom: 2px solid var(--ok); }
+        
         .nav-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; scrollbar-width: none; }
         .tab { padding: 8px 15px; background: #cbd5e1; border-radius: 10px; border: none; white-space: nowrap; font-size: 0.8rem; font-weight: 600; }
         .tab.active { background: var(--s); color: white; }
+
         .container { padding: 15px; max-width: 800px; margin: 0 auto; }
-        .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 5px solid #ddd; }
-        .card.status-ok { border-left-color: var(--ok); }
-        .card.status-in { border-left-color: var(--warn); }
-        .qty { background: #eff6ff; color: var(--s); padding: 5px 12px; border-radius: 10px; font-weight: 900; font-size: 1.2rem; }
+        
+        /* STYLE DES CARTES AVEC COULEURS */
+        .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 6px solid #cbd5e1; transition: 0.3s; }
+        .card.status-in { border-left-color: var(--warn); background-color: #fffbeb; } /* JAUNE SI EN COURS */
+        .card.status-ok { border-left-color: var(--ok); background-color: #f0fdf4; }   /* VERT SI FINI */
+
+        .order-num { position: absolute; top: -10px; left: 15px; background: var(--p); color: white; padding: 4px 12px; font-size: 0.75rem; font-weight: 800; border-radius: 8px; }
+        .qty { background: #eff6ff; color: var(--s); padding: 8px 15px; border-radius: 12px; font-weight: 900; font-size: 1.2rem; border: 1px solid #dbeafe; }
+        
         .st-group { display: flex; gap: 5px; margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px; }
-        .st-btn { flex: 1; padding: 8px 2px; border-radius: 8px; border: 1px solid #ddd; background: white; font-size: 0.6rem; font-weight: 700; }
-        .st-btn.active { background: #333; color: white; }
-        .fab { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; border-radius: 50%; background: var(--s); color: white; border: none; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .st-btn { flex: 1; padding: 10px 2px; border-radius: 8px; border: 1px solid #ddd; background: white; font-size: 0.65rem; font-weight: 700; cursor: pointer; }
+        .st-btn.active.at { background: #64748b; color: white; }
+        .st-btn.active.in { background: var(--warn); color: white; border-color: var(--warn); }
+        .st-btn.active.ok { background: var(--ok); color: white; border-color: var(--ok); }
+
+        .fab { position: fixed; bottom: 25px; right: 20px; width: 65px; height: 65px; border-radius: 20px; background: var(--s); color: white; border: none; font-size: 28px; box-shadow: 0 10px 20px rgba(59, 130, 246, 0.4); }
         .view { display: none; } .view.active { display: block; }
-        input, select { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        input, select, textarea { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; font-family: inherit; }
     </style>
 </head>
 <body>
 
 <header>
     <div style="display:flex; justify-content:space-between; align-items:center;">
-        <b>SHIN SEKAI <span id="sync-icon">●</span></b>
-        <button onclick="fetchData()" style="background:none; border:none; color:white;"><i class="fas fa-sync"></i></button>
+        <b style="letter-spacing:1px;">SHIN SEKAI <span id="sync-icon">●</span></b>
+        <button onclick="fetchData()" style="background:none; border:none; color:white; font-size:1.2rem;"><i class="fas fa-sync-alt"></i></button>
     </div>
     <div class="dept-nav">
         <button class="dept-btn active" onclick="setDept('COUPE')">COUPE</button>
@@ -46,19 +60,28 @@
 
 <div class="container">
     <div id="v-main" class="view active"><div id="orderList"></div></div>
+    
     <div id="v-form" class="view">
-        <input type="hidden" id="f-id"><input type="number" id="f-num" placeholder="N°"><input type="text" id="f-client" placeholder="Client">
-        <input type="text" id="f-color" placeholder="Couleur/Tissu"><input type="number" id="f-qty" placeholder="Quantité">
-        <select id="f-cat"></select>
-        <button onclick="save()" id="btn-save" style="width:100%; padding:15px; background:var(--s); color:white; border:none; border-radius:8px; font-weight:bold;">ENREGISTRER</button>
-        <button onclick="toggleView('v-main')" style="width:100%; margin-top:10px; background:none; border:none;">RETOUR</button>
+        <div style="background: white; padding: 20px; border-radius: 20px;">
+            <h3 id="form-title">Fiche Commande</h3>
+            <input type="hidden" id="f-id">
+            <input type="number" id="f-num" placeholder="Numéro de commande">
+            <input type="text" id="f-client" placeholder="Nom du Client">
+            <input type="text" id="f-color" placeholder="Couleur / Tissu">
+            <input type="text" id="f-priority" placeholder="Annotations / Notes techniques">
+            <input type="number" id="f-qty" placeholder="Quantité Totale">
+            <select id="f-cat"></select>
+            <button onclick="save()" id="btn-save" style="width:100%; padding:15px; background:var(--s); color:white; border:none; border-radius:10px; font-weight:bold; font-size:1rem;">VALIDER</button>
+            <button onclick="toggleView('v-main')" style="width:100%; margin-top:10px; background:none; border:none; color:var(--text-s);">ANNULER</button>
+        </div>
     </div>
 </div>
-<button class="fab" onclick="prepAdd()">+</button>
+
+<button class="fab" onclick="prepAdd()"><i class="fas fa-plus"></i></button>
 
 <script>
     const URL = "https://script.google.com/macros/s/AKfycby0E78pA3jMqOuEemCrieo7dcMR8uADuh6YgviuQDv7QMCyzdYkMSvpszJXfSaLEFl1LA/exec";
-    let orders = [], categories = ["POLOS","PANTALONS","JACKETS","JUPES","BERMUDAS","BLOUSONS","TENUE DE TRAVAIL","BLOUSES","PULLS","MAILLOT + PANT","MAILLOT + SHORT"];
+    let orders = [], categories = ["POLOS","PANTALONS","JACKETS","JUPES","BERMUDAS","BLOUSONS","TENUE DE TRAVAIL"];
     let curTab = categories[0], curDept = 'COUPE', lock = false;
 
     async function fetchData() {
@@ -68,11 +91,9 @@
             const res = await fetch(URL);
             const data = await res.json();
             
-            // 1. Filtrer les catégories (ID 999)
             const cItem = data.find(o => String(o.id) === "999");
             if(cItem) categories = JSON.parse(cItem.client);
             
-            // 2. ANTI-DOUBLON STRICT (On ne garde que le premier ID rencontré)
             const unique = []; const seen = new Set();
             data.filter(o => String(o.id) !== "999").forEach(o => {
                 if(!seen.has(o.id)) { unique.push(o); seen.add(o.id); }
@@ -84,10 +105,8 @@
 
     async function sync() {
         if(lock) return; lock = true;
-        document.getElementById('btn-save').disabled = true;
         document.getElementById('sync-icon').innerHTML = "⏳";
-
-        // NETTOYAGE DES DOUBLONS AVANT ENVOI
+        
         const seen = new Set();
         const cleanOrders = orders.filter(o => {
             if(seen.has(o.id)) return false;
@@ -98,7 +117,7 @@
         
         try {
             await fetch(URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(toSave) });
-            setTimeout(() => { lock = false; document.getElementById('btn-save').disabled = false; document.getElementById('sync-icon').innerHTML = "●"; fetchData(); }, 2000);
+            setTimeout(() => { lock = false; document.getElementById('sync-icon').innerHTML = "●"; fetchData(); }, 2000);
         } catch(e) { lock = false; }
     }
 
@@ -109,21 +128,25 @@
 
         orders.filter(o => o.cat === curTab && (o.dept || 'COUPE') === curDept).forEach(o => {
             const div = document.createElement('div');
-            div.className = `card status-${o.status}`;
+            div.className = `card status-${o.status}`; // APPLIQUE LA COULEUR ICI
             div.innerHTML = `
                 <div class="order-num">${o.num}</div>
                 <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div><b>${o.client}</b><br><small>${o.color || ''}</small></div>
+                    <div style="flex:1">
+                        <b style="font-size:1.1rem; color:var(--p);">${o.client}</b><br>
+                        <span style="font-size:0.85rem; color:#475569;">${o.color || ''}</span><br>
+                        <i style="font-size:0.75rem; color:var(--s); font-weight:600;">${o.priority || ''}</i>
+                    </div>
                     <div class="qty">${o.qty}</div>
                 </div>
                 <div class="st-group">
-                    <button class="st-btn ${o.status==='w'?'active':''}" onclick="setSt('${o.id}','w')">ATTENTE</button>
-                    <button class="st-btn ${o.status==='in'?'active':''}" onclick="setSt('${o.id}','in')">COURS</button>
-                    <button class="st-btn ${o.status==='ok'?'active':''}" onclick="setSt('${o.id}','ok')">FINI</button>
-                    <button class="st-btn" onclick="prepEdit('${o.id}')">✎</button>
-                    <button class="st-btn" onclick="del('${o.id}')" style="color:red">✖</button>
+                    <button class="st-btn at ${o.status==='w'?'active':''}" onclick="setSt('${o.id}','w')">ATTENTE</button>
+                    <button class="st-btn in ${o.status==='in'?'active':''}" onclick="setSt('${o.id}','in')">EN COURS</button>
+                    <button class="st-btn ok ${o.status==='ok'?'active':''}" onclick="setSt('${o.id}','ok')">FINI</button>
+                    <button class="st-btn" onclick="prepEdit('${o.id}')"><i class="fas fa-edit"></i></button>
+                    <button class="st-btn" onclick="del('${o.id}')" style="color:red"><i class="fas fa-trash"></i></button>
                 </div>
-                ${(curDept==='COUPE' && o.status==='ok')?`<button onclick="clone('${o.id}')" style="width:100%;margin-top:10px;padding:10px;border-radius:8px;border:none;background:#333;color:white;font-weight:bold;">LANCER PROD 🚀</button>`:''}
+                ${(curDept==='COUPE' && o.status==='ok')?`<button onclick="clone('${o.id}')" style="width:100%;margin-top:10px;padding:12px;border-radius:10px;border:none;background:var(--p);color:white;font-weight:bold;cursor:pointer;">LANCER PROD 🚀</button>`:''}
             `;
             list.appendChild(div);
         });
@@ -136,6 +159,7 @@
             num: document.getElementById('f-num').value,
             client: document.getElementById('f-client').value.toUpperCase(),
             color: document.getElementById('f-color').value,
+            priority: document.getElementById('f-priority').value, // NOTE RETABLIE
             qty: document.getElementById('f-qty').value,
             cat: document.getElementById('f-cat').value,
             dept: id ? orders.find(x=>x.id==id).dept : curDept,
@@ -153,14 +177,20 @@
             c.id = "ID-" + Date.now() + Math.floor(Math.random()*2000);
             c.dept = d; c.status = 'w'; orders.push(c);
         });
-        o.priority = "✅ Transféré"; sync();
+        o.priority = "✅ Transféré en Production"; sync();
     }
 
     function prepAdd() { 
         document.getElementById('f-id').value = ""; 
+        document.getElementById('f-num').value = "";
+        document.getElementById('f-client').value = "";
+        document.getElementById('f-color').value = "";
+        document.getElementById('f-priority').value = "";
+        document.getElementById('f-qty').value = "";
         document.getElementById('f-cat').innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join('');
         toggleView('v-form'); 
     }
+    
     function prepEdit(id) {
         const o = orders.find(x => x.id == id);
         document.getElementById('f-id').value = o.id;
@@ -168,10 +198,12 @@
         document.getElementById('f-client').value = o.client;
         document.getElementById('f-qty').value = o.qty;
         document.getElementById('f-color').value = o.color;
+        document.getElementById('f-priority').value = o.priority || "";
         document.getElementById('f-cat').innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join('');
         document.getElementById('f-cat').value = o.cat;
         toggleView('v-form');
     }
+
     function setDept(d) { curDept = d; document.querySelectorAll('.dept-btn').forEach(b => b.classList.toggle('active', b.innerText===d)); render(); }
     function setSt(id, s) { orders.find(x => x.id == id).status = s; render(); sync(); }
     function del(id) { if(confirm("Supprimer ?")) { orders = orders.filter(x => x.id != id); sync(); } }
