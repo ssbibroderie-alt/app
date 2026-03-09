@@ -3,123 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHIN SEKAI - PREMIUM</title>
+    <title>SHIN SEKAI - PROD</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --p: #0f172a; --s: #3b82f6; --ok: #10b981; --warn: #f59e0b; --bg: #f1f5f9; --card: #ffffff; }
+        :root { --p: #0f172a; --s: #3b82f6; --ok: #10b981; --warn: #f59e0b; --bg: #f1f5f9; }
         body { font-family: 'Poppins', sans-serif; background: var(--bg); margin: 0; padding-bottom: 90px; color: #1e293b; }
         
-        /* HEADER MAGNIFIQUE */
+        /* HEADER PREMIUM */
         header { 
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); 
-            color: white; padding: 20px 15px; position: sticky; top: 0; z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3); border-bottom: 2px solid var(--s);
+            color: white; padding: 15px; position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
-        
-        .search-box { background: rgba(255,255,255,0.1); border-radius: 12px; display: flex; align-items: center; padding: 8px 15px; margin: 10px 0; border: 1px solid rgba(255,255,255,0.2); }
-        .search-box input { background: none; border: none; color: white; width: 100%; outline: none; font-size: 0.9rem; }
-        .search-box input::placeholder { color: #94a3b8; }
+        .search-box { background: rgba(255,255,255,0.1); border-radius: 12px; display: flex; align-items: center; padding: 8px 15px; margin: 10px 0; border: 1px solid rgba(255,255,255,0.1); }
+        .search-box input { background: none; border: none; color: white; width: 100%; outline: none; }
+        .dept-nav { display: flex; justify-content: space-around; background: rgba(0,0,0,0.2); padding: 5px; border-radius: 12px; margin-bottom: 10px; }
+        .dept-btn { background: none; border: none; color: #94a3b8; font-weight: 800; font-size: 0.7rem; cursor: pointer; padding: 10px; transition: 0.3s; }
+        .dept-btn.active { color: white; background: var(--s); border-radius: 8px; }
+        .nav-scroll { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 5px; }
+        .tab { padding: 8px 15px; background: #e2e8f0; border-radius: 10px; border: none; white-space: nowrap; font-size: 0.75rem; font-weight: 700; color: #475569; }
+        .tab.active { background: var(--p); color: white; }
 
-        .dept-nav { display: flex; justify-content: space-around; background: rgba(0,0,0,0.2); padding: 5px; border-radius: 15px; margin-bottom: 15px; }
-        .dept-btn { background: none; border: none; color: #64748b; font-weight: 800; font-size: 0.7rem; cursor: pointer; padding: 10px; transition: 0.3s; }
-        .dept-btn.active { color: white; background: var(--s); border-radius: 10px; box-shadow: 0 4px 10px rgba(59,130,246,0.4); }
-        
-        .nav-container { display: flex; align-items: center; gap: 10px; }
-        .nav-scroll { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; flex: 1; }
-        .tab { padding: 10px 18px; background: #e2e8f0; border-radius: 12px; border: none; white-space: nowrap; font-size: 0.8rem; font-weight: 700; color: #475569; transition: 0.3s; cursor: pointer; }
-        .tab.active { background: var(--p); color: white; transform: scale(1.05); }
-
-        /* INTERFACE CARTES */
-        .container { padding: 15px; max-width: 850px; margin: 0 auto; }
+        /* CARTES INTERFACE */
+        .container { padding: 15px; max-width: 800px; margin: 0 auto; }
         .card { 
-            background: var(--card); border-radius: 20px; padding: 20px; margin-bottom: 18px; 
-            position: relative; border-left: 10px solid #cbd5e1; 
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); transition: 0.3s;
+            background: white; border-radius: 18px; padding: 18px; margin-bottom: 15px; 
+            position: relative; border-left: 8px solid #cbd5e1; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); 
         }
         .card.status-in { border-left-color: var(--warn); background: linear-gradient(to right, #fffdf0, #fff); }
         .card.status-ok { border-left-color: var(--ok); background: linear-gradient(to right, #f0fff4, #fff); }
-        
-        .order-num { position: absolute; top: -12px; left: 20px; background: var(--s); color: white; padding: 5px 15px; font-size: 0.75rem; font-weight: 900; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .qty-badge { background: #eff6ff; color: var(--s); padding: 12px 20px; border-radius: 15px; font-weight: 900; font-size: 1.4rem; border: 1px solid #dbeafe; }
+        .order-num { position: absolute; top: -10px; left: 15px; background: var(--s); color: white; padding: 3px 10px; font-size: 0.7rem; font-weight: 900; border-radius: 6px; }
+        .qty-badge { background: #eff6ff; color: var(--s); padding: 10px 15px; border-radius: 12px; font-weight: 900; font-size: 1.2rem; }
+        .st-group { display: flex; gap: 5px; margin-top: 15px; }
+        .st-btn { flex: 1; padding: 10px 2px; border-radius: 8px; border: 1px solid #e2e8f0; background: white; font-size: 0.6rem; font-weight: 800; cursor: pointer; }
+        .st-btn.active.in { background: var(--warn); color: white; border-color: var(--warn); }
+        .st-btn.active.ok { background: var(--ok); color: white; border-color: var(--ok); }
 
-        /* BOUTONS ACTIONS */
-        .st-group { display: flex; gap: 8px; margin-top: 18px; }
-        .st-btn { flex: 1; padding: 12px 5px; border-radius: 10px; border: 1px solid #e2e8f0; background: white; font-size: 0.65rem; font-weight: 800; color: #64748b; cursor: pointer; transition: 0.2s; }
-        .st-btn.active { background: var(--p); color: white; border-color: var(--p); }
-        .st-btn.active.in { background: var(--warn); border-color: var(--warn); }
-        .st-btn.active.ok { background: var(--ok); border-color: var(--ok); }
-
-        /* STYLE IMPRESSION LIGNE (PROPRE) */
+        /* 🖨️ STYLE IMPRESSION ULTRA-COMPACT */
         @media print {
-            header, .fab, .st-group, .btn-add-cat, .print-hide { display: none !important; }
-            body { background: white !important; }
+            header, .fab, .st-group, .print-hide { display: none !important; }
+            body { background: white !important; padding: 0; }
             .container { max-width: 100% !important; padding: 0 !important; }
             .card { 
-                display: flex !important; justify-content: space-between !important; align-items: center !important;
-                border: 1px solid #eee !important; border-left: 15px solid #ccc !important;
-                margin-bottom: 5px !important; padding: 10px 20px !important;
-                page-break-inside: avoid; border-radius: 10px !important; box-shadow: none !important;
+                display: flex !important; flex-direction: row !important; align-items: center !important;
+                justify-content: space-between !important;
+                border: 0.5px solid #eee !important; border-left: 10px solid #ccc !important;
+                margin-bottom: 2px !important; /* Espace réduit au minimum */
+                padding: 5px 15px !important; /* Hauteur de ligne réduite */
+                border-radius: 6px !important; box-shadow: none !important;
+                height: 40px !important; /* Force une petite taille */
             }
             .card.status-ok { border-left-color: #10b981 !important; background: #f0fff4 !important; -webkit-print-color-adjust: exact; }
             .card.status-in { border-left-color: #f59e0b !important; background: #fffdf0 !important; -webkit-print-color-adjust: exact; }
-            .qty-badge { border: none !important; background: none !important; font-size: 1.5rem !important; }
-            .order-num { position: static !important; background: none !important; color: black !important; font-size: 1rem !important; box-shadow: none !important; }
+            .order-num { position: static !important; background: none !important; color: #000 !important; font-size: 0.8rem !important; padding: 0 !important; margin-right: 10px; font-weight: bold; }
+            .client-info { flex-grow: 1; display: flex; gap: 15px; align-items: center; }
+            .qty-badge { background: none !important; border: none !important; font-size: 1rem !important; padding: 0 !important; font-weight: bold; }
+            .print-status { display: block !important; font-size: 0.7rem; font-weight: 800; width: 80px; text-align: right; }
         }
+        .print-status { display: none; } /* Caché sur l'écran */
 
-        .fab { position: fixed; bottom: 30px; right: 25px; width: 65px; height: 65px; border-radius: 22px; background: var(--s); color: white; border: none; font-size: 28px; box-shadow: 0 10px 25px rgba(59,130,246,0.5); cursor: pointer; }
+        .fab { position: fixed; bottom: 25px; right: 20px; width: 60px; height: 60px; border-radius: 20px; background: var(--s); color: white; border: none; font-size: 24px; box-shadow: 0 10px 20px rgba(59,130,246,0.3); }
         .view { display: none; } .view.active { display: block; }
-        input, select { width: 100%; padding: 15px; margin-bottom: 15px; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 1rem; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 10px; }
     </style>
 </head>
 <body>
 
 <header>
     <div style="display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-size:1.4rem; letter-spacing:1px; font-weight:900;">SHIN <span style="color:var(--s)">SEKAI</span></span>
-        <div style="display:flex; gap:10px;">
-            <button onclick="window.print()" style="background:rgba(255,255,255,0.2); border:none; color:white; width:40px; height:40px; border-radius:10px;"><i class="fas fa-print"></i></button>
-            <button onclick="fetchData()" style="background:rgba(255,255,255,0.2); border:none; color:white; width:40px; height:40px; border-radius:10px;"><i class="fas fa-sync-alt"></i></button>
+        <b style="font-size:1.2rem;">SHIN SEKAI <span id="sync-icon">●</span></b>
+        <div style="display:flex; gap:8px;">
+            <button onclick="window.print()" style="background:rgba(255,255,255,0.2); border:none; color:white; width:35px; height:35px; border-radius:8px;"><i class="fas fa-print"></i></button>
+            <button onclick="fetchData()" style="background:none; border:none; color:white; font-size:1.2rem;"><i class="fas fa-sync-alt"></i></button>
         </div>
     </div>
-    
     <div class="search-box">
-        <i class="fas fa-search" style="color:#94a3b8; margin-right:10px;"></i>
-        <input type="text" id="searchInput" placeholder="Recherche rapide..." oninput="render()">
-        <span id="sync-icon" style="font-size:0.6rem;">●</span>
+        <input type="text" id="searchInput" placeholder="Recherche..." oninput="render()">
     </div>
-
     <div class="dept-nav">
         <button class="dept-btn active" id="b-COUPE" onclick="setDept('COUPE')">COUPE</button>
         <button class="dept-btn" id="b-COUTURE" onclick="setDept('COUTURE')">COUTURE</button>
         <button class="dept-btn" id="b-LOGO" onclick="setDept('LOGO')">LOGO</button>
         <button class="dept-btn" id="b-FINITION" onclick="setDept('FINITION')">FINITION</button>
     </div>
-
-    <div class="nav-container">
-        <div class="nav-scroll" id="navTabs"></div>
-        <button onclick="addCategory()" style="background:var(--ok); color:white; border:none; border-radius:10px; padding:8px 15px; font-weight:bold;">+</button>
-    </div>
+    <div class="nav-scroll" id="navTabs"></div>
 </header>
 
 <div class="container">
     <div id="v-main" class="view active"><div id="orderList"></div></div>
-    
     <div id="v-form" class="view">
-        <div style="background: white; padding: 25px; border-radius: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
-            <h2 id="formTitle" style="margin-top:0;">Détails Commande</h2>
+        <div style="background:white; padding:20px; border-radius:20px;">
+            <h3>Fiche Commande</h3>
             <input type="hidden" id="f-id">
-            <input type="number" id="f-num" placeholder="Numéro de Commande">
-            <input type="text" id="f-client" placeholder="Nom du Client">
-            <input type="text" id="f-color" placeholder="Désignation / Couleur">
-            <input type="number" id="f-qty" placeholder="Quantité Totale">
+            <input type="number" id="f-num" placeholder="N°">
+            <input type="text" id="f-client" placeholder="Client">
+            <input type="text" id="f-color" placeholder="Couleur">
+            <input type="number" id="f-qty" placeholder="Quantité">
             <select id="f-cat"></select>
-            <button onclick="save()" style="width:100%; padding:18px; background:var(--s); color:white; border:none; border-radius:15px; font-weight:900; font-size:1.1rem; box-shadow: 0 8px 15px rgba(59,130,246,0.3);">SAUVEGARDER</button>
-            <button onclick="toggleView('v-main')" style="width:100%; margin-top:15px; background:none; border:none; color:#64748b; font-weight:700;">RETOUR</button>
+            <button onclick="save()" style="width:100%; padding:15px; background:var(--s); color:white; border:none; border-radius:12px; font-weight:bold;">VALIDER</button>
+            <button onclick="toggleView('v-main')" style="width:100%; margin-top:10px; background:none; border:none; color:#64748b;">RETOUR</button>
         </div>
     </div>
 </div>
 
-<button class="fab" onclick="prepAdd()"><i class="fas fa-plus"></i></button>
+<button class="fab" onclick="prepAdd()">+</button>
 
 <script>
     const URL = "https://script.google.com/macros/s/AKfycbyONYLIcVpucYTFYexBibNaZvW0EpIQFoYiSFnEaiKNKGwCHod1hb12mFNzmIy7FVGqfA/exec";
@@ -128,14 +115,14 @@
 
     async function fetchData() {
         if(lock) return;
-        document.getElementById('sync-icon').style.color = "#f59e0b";
+        document.getElementById('sync-icon').style.color = "orange";
         try {
             const res = await fetch(URL);
             const data = await res.json();
             const cItem = data.find(o => String(o.id) === "999");
             if(cItem) categories = JSON.parse(cItem.client);
             if(!curTab) curTab = categories[0];
-
+            
             const unique = []; const seen = new Set();
             data.filter(o => String(o.id) !== "999").forEach(o => {
                 if(!seen.has(o.id)) {
@@ -158,28 +145,24 @@
         const filtered = orders.filter(o => o.dept === curDept && o.cat === curTab && (o.client.toLowerCase().includes(search) || o.num.toString().includes(search)));
 
         filtered.forEach(o => {
+            const stTxt = o.status === 'ok' ? 'FINI' : (o.status === 'in' ? 'EN COURS' : 'ATTENTE');
             const div = document.createElement('div');
             div.className = `card status-${o.status}`;
             div.innerHTML = `
                 <div class="order-num">N° ${o.num}</div>
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div>
-                        <div style="font-size:1.2rem; font-weight:900; text-transform:uppercase;">${o.client}</div>
-                        <div style="color:#64748b; font-weight:600;">${o.color || ''}</div>
-                        <div class="print-hide" style="font-size:0.7rem; font-weight:bold; color:var(--s); margin-top:5px;">
-                            ${o.status==='ok'?'TERMINÉ ✅':(o.status==='in'?'EN COURS ⏳':'EN ATTENTE')}
-                        </div>
-                    </div>
-                    <div class="qty-badge">${o.qty} <small style="font-size:0.6rem">PCS</small></div>
+                <div class="client-info">
+                    <div style="font-weight:900; text-transform:uppercase;">${o.client}</div>
+                    <div style="font-size:0.75rem; color:#64748b;" class="print-hide">${o.color || ''}</div>
                 </div>
+                <div class="qty-badge">${o.qty} <small style="font-size:0.6rem">PCS</small></div>
+                <div class="print-status">${stTxt}</div>
                 <div class="st-group print-hide">
                     <button class="st-btn ${o.status==='w'?'active':''}" onclick="setSt('${o.id}','w')">ATTENTE</button>
-                    <button class="st-btn in ${o.status==='in'?'active':''}" onclick="setSt('${o.id}','in')">EN COURS</button>
-                    <button class="st-btn ok ${o.status==='ok'?'active':''}" onclick="setSt('${o.id}','ok')">TERMINÉ</button>
-                    <button class="st-btn" onclick="prepEdit('${o.id}')">EDIT</button>
-                    <button class="st-btn" onclick="del('${o.id}')" style="color:#ef4444">SUPPR</button>
+                    <button class="st-btn in ${o.status==='in'?'active':''}" onclick="setSt('${o.id}','in')">COURS</button>
+                    <button class="st-btn ok ${o.status==='ok'?'active':''}" onclick="setSt('${o.id}','ok')">FINI</button>
+                    <button class="st-btn" onclick="del('${o.id}')" style="color:red">✖</button>
                 </div>
-                ${(curDept==='COUPE' && o.status==='ok')?`<button class="print-hide" onclick="cloneProd('${o.id}')" style="width:100%;margin-top:10px;padding:12px;border:none;background:var(--p);color:white;border-radius:12px;font-weight:bold;cursor:pointer;">ENVOYER EN PROD 🚀</button>`:''}
+                ${(curDept==='COUPE' && o.status==='ok')?`<button class="print-hide" onclick="cloneProd('${o.id}')" style="width:100%;margin-top:10px;padding:10px;border:none;background:var(--p);color:white;border-radius:10px;font-weight:bold;">ENVOYER PROD 🚀</button>`:''}
             `;
             list.appendChild(div);
         });
@@ -197,7 +180,7 @@
 
     function cloneProd(id) {
         const o = orders.find(x => x.id == id);
-        if(!confirm("Lancer en Couture, Logo et Finition ?")) return;
+        if(!confirm("Cloner vers Couture, Logo et Finition ?")) return;
         ["COUTURE", "LOGO", "FINITION"].forEach(at => {
             const copy = JSON.parse(JSON.stringify(o));
             copy.id = "ID-" + Date.now() + "-" + at + "-" + Math.floor(Math.random()*1000);
@@ -224,29 +207,11 @@
         toggleView('v-main'); sync();
     }
 
-    function addCategory() {
-        const name = prompt("Nom de la catégorie :");
-        if(name) { categories.push(name.toUpperCase()); curTab = name.toUpperCase(); sync(); render(); }
-    }
-
     function setDept(d) { curDept = d; document.querySelectorAll('.dept-btn').forEach(b => b.classList.toggle('active', b.id==='b-'+d)); render(); }
     function setSt(id, s) { orders.find(x => x.id == id).status = s; render(); sync(); }
-    function del(id) { if(confirm("Supprimer définitivement ?")) { orders = orders.filter(x => x.id != id); sync(); } }
+    function del(id) { if(confirm("Supprimer ?")) { orders = orders.filter(x => x.id != id); sync(); } }
     function toggleView(v) { document.querySelectorAll('.view').forEach(e => e.classList.remove('active')); document.getElementById(v).classList.add('active'); }
-    function prepAdd() { 
-        document.getElementById('f-id').value = ""; 
-        document.getElementById('f-cat').innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join(''); 
-        toggleView('v-form'); 
-    }
-    function prepEdit(id) {
-        const o = orders.find(x => x.id == id);
-        document.getElementById('f-id').value = o.id; document.getElementById('f-num').value = o.num;
-        document.getElementById('f-client').value = o.client; document.getElementById('f-qty').value = o.qty;
-        document.getElementById('f-color').value = o.color; 
-        document.getElementById('f-cat').innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join('');
-        document.getElementById('f-cat').value = o.cat;
-        toggleView('v-form');
-    }
+    function prepAdd() { document.getElementById('f-id').value = ""; document.getElementById('f-cat').innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join(''); toggleView('v-form'); }
 
     fetchData();
 </script>
