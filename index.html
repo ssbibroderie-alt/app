@@ -3,86 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHIN SEKAI - SYSTÈME COMPLET</title>
+    <title>SHIN SEKAI - OPTI IMPRESSION</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --p: #0f172a; --s: #3b82f6; --ok: #10b981; --warn: #f59e0b; --bg: #f1f5f9; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding-bottom: 90px; }
         header { background: var(--p); color: white; padding: 15px; position: sticky; top: 0; z-index: 1000; }
         
-        /* Barre de recherche */
+        /* Navigation & Recherche */
         .search-box { background: rgba(255,255,255,0.1); border-radius: 10px; display: flex; align-items: center; padding: 5px 15px; margin-bottom: 10px; }
-        .search-box input { background: none; border: none; color: white; padding: 8px; width: 100%; outline: none; margin: 0; }
-        .search-box input::placeholder { color: #94a3b8; }
-
+        .search-box input { background: none; border: none; color: white; padding: 8px; width: 100%; outline: none; }
         .dept-nav { display: flex; justify-content: space-around; background: rgba(255,255,255,0.1); padding: 8px; border-radius: 12px; margin-bottom: 10px; }
-        .dept-btn { background: none; border: none; color: #94a3b8; font-weight: 800; font-size: 0.7rem; cursor: pointer; padding: 8px; }
+        .dept-btn { background: none; border: none; color: #94a3b8; font-weight: 800; font-size: 0.7rem; cursor: pointer; }
         .dept-btn.active { color: var(--ok); border-bottom: 3px solid var(--ok); }
         
         .nav-container { display: flex; align-items: center; gap: 8px; }
         .nav-scroll { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; flex: 1; }
-        .tab { padding: 8px 12px; background: #cbd5e1; border-radius: 10px; border: none; white-space: nowrap; font-size: 0.75rem; font-weight: 700; cursor: pointer; position: relative; }
+        .tab { padding: 8px 12px; background: #cbd5e1; border-radius: 10px; border: none; white-space: nowrap; font-size: 0.75rem; font-weight: 700; }
         .tab.active { background: var(--s); color: white; }
-        .btn-add-cat { background: var(--ok); color: white; border: none; border-radius: 8px; width: 35px; height: 35px; cursor: pointer; font-size: 1.2rem; }
 
+        /* Cartes Interface */
         .container { padding: 15px; max-width: 800px; margin: 0 auto; }
-        .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; position: relative; border-left: 8px solid #cbd5e1; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .card.status-in { border-left-color: var(--warn); background-color: #fffbeb; }
-        .card.status-ok { border-left-color: var(--ok); background-color: #f0fdf4; }
-        .qty { background: #eff6ff; color: var(--s); padding: 8px 12px; border-radius: 10px; font-weight: 900; font-size: 1.1rem; }
-        .st-group { display: flex; gap: 5px; margin-top: 15px; }
-        .st-btn { flex: 1; padding: 10px 2px; border-radius: 8px; border: 1px solid #ddd; background: white; font-size: 0.6rem; font-weight: 700; cursor: pointer; }
+        .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 10px; position: relative; border-left: 8px solid #ccc; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .card.status-in { border-left-color: var(--warn); }
+        .card.status-ok { border-left-color: var(--ok); }
+
+        /* STYLE D'IMPRESSION OPTIMISÉ */
+        @media print {
+            body { background: white; padding: 0; }
+            header, .fab, .st-group, .btn-add-cat, .print-ignore { display: none !important; }
+            .container { max-width: 100%; padding: 0; }
+            
+            #orderList { 
+                display: grid; 
+                grid-template-columns: repeat(4, 1fr); /* 4 colonnes sur A4 */
+                gap: 5px; 
+                padding: 10px;
+            }
+
+            .card { 
+                border: 1px solid #000 !important; 
+                margin: 0 !important; 
+                padding: 5px !important;
+                height: 80px; /* Taille fixe pour alignement */
+                page-break-inside: avoid;
+                border-radius: 10px !important;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+            }
+
+            /* Couleurs Impression */
+            .card.status-ok { background-color: #dcfce7 !important; -webkit-print-color-adjust: exact; } /* Vert */
+            .card.status-in { background-color: #fef9c3 !important; -webkit-print-color-adjust: exact; } /* Jaune */
+            .card.status-w { background-color: #ffffff !important; } /* Neutre */
+
+            .order-num { position: static !important; font-size: 0.7rem; font-weight: bold; background: none !important; color: black !important; padding: 0 !important; }
+            .qty { background: none !important; font-size: 1.1rem !important; padding: 0 !important; margin: 2px 0; }
+            .client-name { font-size: 0.8rem; font-weight: bold; text-transform: uppercase; }
+            .status-text { font-size: 0.6rem; font-weight: bold; margin-top: 3px; }
+        }
+
+        .st-group { display: flex; gap: 5px; margin-top: 10px; }
+        .st-btn { flex: 1; padding: 8px 2px; border-radius: 6px; border: 1px solid #ddd; background: white; font-size: 0.6rem; font-weight: bold; }
         .st-btn.active.at { background: #64748b; color: white; }
         .st-btn.active.in { background: var(--warn); color: white; }
         .st-btn.active.ok { background: var(--ok); color: white; }
-        
-        .fab { position: fixed; bottom: 25px; right: 20px; width: 60px; height: 60px; border-radius: 20px; background: var(--s); color: white; border: none; font-size: 24px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); cursor: pointer; }
+        .fab { position: fixed; bottom: 25px; right: 20px; width: 60px; height: 60px; border-radius: 20px; background: var(--s); color: white; border: none; font-size: 24px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         .view { display: none; } .view.active { display: block; }
-        input, select { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 10px; font-family: inherit; }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="search-box">
-        <i class="fas fa-search" style="color:#94a3b8"></i>
-        <input type="text" id="searchInput" placeholder="Rechercher client ou N°..." oninput="render()">
-        <span id="sync-icon" style="margin-left:10px">●</span>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <b>SHIN SEKAI <span id="sync-icon">●</span></b>
+        <div>
+            <button onclick="window.print()" style="background:var(--ok); border:none; color:white; padding:8px 12px; border-radius:8px; margin-right:5px;"><i class="fas fa-print"></i></button>
+            <button onclick="fetchData()" style="background:none; border:none; color:white;"><i class="fas fa-sync-alt"></i></button>
+        </div>
     </div>
-    
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Rechercher..." oninput="render()">
+    </div>
     <div class="dept-nav">
         <button class="dept-btn active" id="b-COUPE" onclick="setDept('COUPE')">COUPE</button>
         <button class="dept-btn" id="b-COUTURE" onclick="setDept('COUTURE')">COUTURE</button>
         <button class="dept-btn" id="b-LOGO" onclick="setDept('LOGO')">LOGO</button>
         <button class="dept-btn" id="b-FINITION" onclick="setDept('FINITION')">FINITION</button>
     </div>
-
     <div class="nav-container">
         <div class="nav-scroll" id="navTabs"></div>
-        <button class="btn-add-cat" onclick="addCategory()">+</button>
+        <button class="btn-add-cat" onclick="addCategory()" style="background:var(--ok); color:white; border:none; border-radius:8px; width:30px; height:30px;">+</button>
     </div>
 </header>
 
 <div class="container">
     <div id="v-main" class="view active"><div id="orderList"></div></div>
-    
     <div id="v-form" class="view">
         <div style="background: white; padding: 20px; border-radius: 20px;">
-            <h3 id="formTitle">Nouvelle Fiche</h3>
+            <h3>Fiche Commande</h3>
             <input type="hidden" id="f-id">
-            <input type="number" id="f-num" placeholder="N° Commande">
-            <input type="text" id="f-client" placeholder="Nom du Client">
+            <input type="number" id="f-num" placeholder="N°">
+            <input type="text" id="f-client" placeholder="Client">
             <input type="text" id="f-color" placeholder="Couleur">
-            <input type="text" id="f-priority" placeholder="Annotations">
             <input type="number" id="f-qty" placeholder="Quantité">
             <select id="f-cat"></select>
-            <button onclick="save()" style="width:100%; padding:15px; background:var(--s); color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer;">ENREGISTRER</button>
-            <button onclick="toggleView('v-main')" style="width:100%; margin-top:10px; background:none; border:none; color:#64748b; cursor:pointer;">ANNULER</button>
+            <button onclick="save()" style="width:100%; padding:15px; background:var(--s); color:white; border:none; border-radius:10px; font-weight:bold;">ENREGISTRER</button>
+            <button onclick="toggleView('v-main')" style="width:100%; margin-top:10px; background:none; border:none;">ANNULER</button>
         </div>
     </div>
 </div>
 
-<button class="fab" onclick="prepAdd()"><i class="fas fa-plus"></i></button>
+<button class="fab" onclick="prepAdd()">+</button>
 
 <script>
     const URL = "https://script.google.com/macros/s/AKfycbyONYLIcVpucYTFYexBibNaZvW0EpIQFoYiSFnEaiKNKGwCHod1hb12mFNzmIy7FVGqfA/exec";
@@ -98,7 +132,7 @@
             const cItem = data.find(o => String(o.id) === "999");
             if(cItem) categories = JSON.parse(cItem.client);
             if(!curTab) curTab = categories[0];
-
+            
             const unique = []; const seen = new Set();
             data.filter(o => String(o.id) !== "999").forEach(o => {
                 if(!seen.has(o.id)) {
@@ -111,6 +145,37 @@
         } catch(e) { document.getElementById('sync-icon').style.color = "red"; }
     }
 
+    function render() {
+        const list = document.getElementById('orderList'); list.innerHTML = '';
+        const nav = document.getElementById('navTabs');
+        const search = document.getElementById('searchInput').value.toLowerCase();
+        
+        nav.innerHTML = categories.map(c => `<button class="tab ${curTab===c?'active':''}" onclick="curTab='${c}';render();">${c}</button>`).join('');
+
+        const filtered = orders.filter(o => o.dept === curDept && o.cat === curTab && (o.client.toLowerCase().includes(search) || o.num.toString().includes(search)));
+
+        filtered.forEach(o => {
+            const statusLabel = o.status === 'ok' ? 'FINI' : (o.status === 'in' ? 'EN COURS' : 'ATTENTE');
+            const div = document.createElement('div');
+            div.className = `card status-${o.status}`;
+            div.innerHTML = `
+                <div class="order-num">N° ${o.num}</div>
+                <div class="client-name">${o.client}</div>
+                <div style="font-size:0.7rem;">${o.color || ''}</div>
+                <div class="qty">${o.qty} PCS</div>
+                <div class="status-text">${statusLabel}</div>
+                <div class="st-group print-ignore">
+                    <button class="st-btn ${o.status==='w'?'active':''}" onclick="setSt('${o.id}','w')">ATT</button>
+                    <button class="st-btn ${o.status==='in'?'active':''}" onclick="setSt('${o.id}','in')">IN</button>
+                    <button class="st-btn ${o.status==='ok'?'active':''}" onclick="setSt('${o.id}','ok')">OK</button>
+                    <button class="st-btn" onclick="del('${o.id}')" style="color:red">✖</button>
+                </div>
+                ${(curDept==='COUPE' && o.status==='ok')?`<button class="print-ignore" onclick="cloneProd('${o.id}')" style="width:100%;margin-top:10px;padding:8px;border:none;background:var(--p);color:white;border-radius:8px;font-size:0.7rem;">ENVOYER PROD 🚀</button>`:''}
+            `;
+            list.appendChild(div);
+        });
+    }
+
     async function sync() {
         if(lock) return; lock = true;
         document.getElementById('sync-icon').innerHTML = "⏳";
@@ -119,59 +184,6 @@
             await fetch(URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(toSave) });
             setTimeout(() => { lock = false; document.getElementById('sync-icon').innerHTML = "●"; fetchData(); }, 2000);
         } catch(e) { lock = false; }
-    }
-
-    function render() {
-        const list = document.getElementById('orderList'); list.innerHTML = '';
-        const nav = document.getElementById('navTabs');
-        const search = document.getElementById('searchInput').value.toLowerCase();
-        
-        nav.innerHTML = categories.map(c => `
-            <button class="tab ${curTab===c?'active':''}" 
-                    onclick="curTab='${c}';render();" 
-                    oncontextmenu="removeCategory('${c}');return false;">
-                ${c}
-            </button>`).join('');
-
-        const filtered = orders.filter(o => {
-            const matchesSearch = o.client.toLowerCase().includes(search) || o.num.toString().includes(search);
-            const matchesDept = o.dept === curDept;
-            const matchesCat = o.cat === curTab;
-            return matchesSearch && matchesDept && matchesCat;
-        });
-
-        filtered.forEach(o => {
-            const div = document.createElement('div');
-            div.className = `card status-${o.status}`;
-            div.innerHTML = `
-                <div class="order-num">${o.num}</div>
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div style="flex:1"><b>${o.client}</b><br><span>${o.color}</span><br><i style="font-size:0.7rem; color:var(--s)">${o.priority||''}</i></div>
-                    <div class="qty">${o.qty}</div>
-                </div>
-                <div class="st-group">
-                    <button class="st-btn at ${o.status==='w'?'active':''}" onclick="setSt('${o.id}','w')">ATTENTE</button>
-                    <button class="st-btn in ${o.status==='in'?'active':''}" onclick="setSt('${o.id}','in')">COURS</button>
-                    <button class="st-btn ok ${o.status==='ok'?'active':''}" onclick="setSt('${o.id}','ok')">FINI</button>
-                    <button class="st-btn" onclick="prepEdit('${o.id}')"><i class="fas fa-edit"></i></button>
-                    <button class="st-btn" onclick="del('${o.id}')" style="color:red"><i class="fas fa-trash"></i></button>
-                </div>
-                ${(curDept==='COUPE' && o.status==='ok')?`<button onclick="cloneProd('${o.id}')" style="width:100%;margin-top:10px;padding:12px;background:var(--p);color:white;border:none;border-radius:10px;font-weight:bold;cursor:pointer;">LANCER EN PROD 🚀</button>`:''}
-            `;
-            list.appendChild(div);
-        });
-    }
-
-    function addCategory() {
-        const name = prompt("Nom de la nouvelle catégorie :");
-        if(name) { categories.push(name.toUpperCase()); curTab = name.toUpperCase(); sync(); render(); }
-    }
-
-    function removeCategory(cat) {
-        if(confirm("Supprimer la catégorie '" + cat + "' ?")) {
-            categories = categories.filter(c => c !== cat);
-            curTab = categories[0] || ""; sync(); render();
-        }
     }
 
     function cloneProd(id) {
@@ -194,7 +206,6 @@
             num: document.getElementById('f-num').value,
             client: document.getElementById('f-client').value.toUpperCase(),
             color: document.getElementById('f-color').value,
-            priority: document.getElementById('f-priority').value,
             qty: document.getElementById('f-qty').value,
             cat: document.getElementById('f-cat').value,
             dept: exist ? exist.dept : curDept,
@@ -204,31 +215,16 @@
         toggleView('v-main'); sync();
     }
 
-    function setDept(d) { curDept = d; document.querySelectorAll('.dept-btn').forEach(b => b.classList.toggle('active', b.id==='b-'+d)); render(); }
-    function setSt(id, s) { orders.find(x => x.id == id).status = s; render(); sync(); }
-    function del(id) { if(confirm("Supprimer cette fiche ?")) { orders = orders.filter(x => x.id != id); sync(); } }
-    function toggleView(v) { document.querySelectorAll('.view').forEach(e => e.classList.remove('active')); document.getElementById(v).classList.add('active'); }
-    
-    function prepAdd() { 
-        document.getElementById('f-id').value = ""; 
-        document.getElementById('formTitle').innerText = "Nouvelle Fiche";
-        document.getElementById('f-cat').innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join('');
-        toggleView('v-form'); 
+    function addCategory() {
+        const name = prompt("Nom de la catégorie :");
+        if(name) { categories.push(name.toUpperCase()); curTab = name.toUpperCase(); sync(); render(); }
     }
 
-    function prepEdit(id) {
-        const o = orders.find(x => x.id == id);
-        document.getElementById('f-id').value = o.id;
-        document.getElementById('f-num').value = o.num;
-        document.getElementById('f-client').value = o.client;
-        document.getElementById('f-qty').value = o.qty;
-        document.getElementById('f-color').value = o.color;
-        document.getElementById('f-priority').value = o.priority || "";
-        document.getElementById('f-cat').innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join('');
-        document.getElementById('f-cat').value = o.cat;
-        document.getElementById('formTitle').innerText = "Modifier Fiche";
-        toggleView('v-form');
-    }
+    function setDept(d) { curDept = d; document.querySelectorAll('.dept-btn').forEach(b => b.classList.toggle('active', b.id==='b-'+d)); render(); }
+    function setSt(id, s) { orders.find(x => x.id == id).status = s; render(); sync(); }
+    function del(id) { if(confirm("Supprimer ?")) { orders = orders.filter(x => x.id != id); sync(); } }
+    function toggleView(v) { document.querySelectorAll('.view').forEach(e => e.classList.remove('active')); document.getElementById(v).classList.add('active'); }
+    function prepAdd() { document.getElementById('f-id').value = ""; document.getElementById('f-cat').innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join(''); toggleView('v-form'); }
 
     fetchData();
 </script>
