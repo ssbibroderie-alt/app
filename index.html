@@ -3,32 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHIN SEKAI - FIX FINAL ROUTAGE</title>
+    <title>SHIN SEKAI - SYSTEME FIXE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --p: #0f172a; --s: #3b82f6; --ok: #10b981; --warn: #f59e0b; --bg: #f1f5f9; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding-bottom: 80px; }
+        body { font-family: sans-serif; background: var(--bg); margin: 0; padding-bottom: 90px; }
         header { background: var(--p); color: white; padding: 15px; position: sticky; top: 0; z-index: 1000; }
-        .dept-nav { display: flex; justify-content: space-around; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 12px; margin: 10px 0; }
-        .dept-btn { background: none; border: none; color: #94a3b8; font-weight: 800; font-size: 0.65rem; cursor: pointer; padding: 8px; transition: 0.3s; }
-        .dept-btn.active { color: var(--ok); border-bottom: 2px solid var(--ok); transform: scale(1.1); }
-        .nav-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; scrollbar-width: none; }
-        .tab { padding: 8px 15px; background: #cbd5e1; border-radius: 10px; border: none; white-space: nowrap; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
+        .dept-nav { display: flex; justify-content: space-around; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 10px; margin: 10px 0; }
+        .dept-btn { background: none; border: none; color: #94a3b8; font-weight: bold; font-size: 0.7rem; cursor: pointer; padding: 5px; }
+        .dept-btn.active { color: var(--ok); border-bottom: 2px solid var(--ok); }
+        .nav-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; }
+        .tab { padding: 8px 15px; background: #cbd5e1; border-radius: 8px; border: none; white-space: nowrap; font-weight: bold; cursor: pointer; }
         .tab.active { background: var(--s); color: white; }
         .container { padding: 15px; max-width: 800px; margin: 0 auto; }
-        .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 6px solid #cbd5e1; }
-        .card.status-in { border-left-color: var(--warn); background-color: #fffbeb; }
-        .card.status-ok { border-left-color: var(--ok); background-color: #f0fdf4; }
-        .order-num { position: absolute; top: -10px; left: 15px; background: var(--p); color: white; padding: 4px 12px; font-size: 0.75rem; font-weight: 800; border-radius: 8px; }
-        .qty { background: #eff6ff; color: var(--s); padding: 8px 15px; border-radius: 12px; font-weight: 900; font-size: 1.2rem; }
-        .st-group { display: flex; gap: 5px; margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px; }
-        .st-btn { flex: 1; padding: 10px 2px; border-radius: 8px; border: 1px solid #ddd; background: white; font-size: 0.6rem; font-weight: 700; cursor: pointer; }
-        .st-btn.active.at { background: #64748b; color: white; }
-        .st-btn.active.in { background: var(--warn); color: white; }
-        .st-btn.active.ok { background: var(--ok); color: white; }
-        .fab { position: fixed; bottom: 25px; right: 20px; width: 60px; height: 60px; border-radius: 20px; background: var(--s); color: white; border: none; font-size: 24px; box-shadow: 0 10px 20px rgba(0,0,0,0.2); z-index: 1001; }
+        .card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 15px; position: relative; border-left: 8px solid #ccc; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .card.status-in { border-left-color: var(--warn); background: #fffdf0; }
+        .card.status-ok { border-left-color: var(--ok); background: #f0fff4; }
+        .qty { background: #e0f2fe; color: var(--s); padding: 10px; border-radius: 8px; font-weight: 900; font-size: 1.3rem; }
+        .st-group { display: flex; gap: 4px; margin-top: 10px; }
+        .st-btn { flex: 1; padding: 10px 2px; border-radius: 6px; border: 1px solid #ddd; background: white; font-size: 0.6rem; font-weight: bold; cursor: pointer; }
+        .st-btn.active { background: #444; color: white; }
+        .fab { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; border-radius: 15px; background: var(--s); color: white; border: none; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .view { display: none; } .view.active { display: block; }
-        input, select { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
     </style>
 </head>
 <body>
@@ -50,17 +47,17 @@
 <div class="container">
     <div id="v-main" class="view active"><div id="orderList"></div></div>
     <div id="v-form" class="view">
-        <div style="background: white; padding: 20px; border-radius: 20px;">
-            <h3 id="form-title">Modifier Fiche</h3>
+        <div style="background:white; padding:20px; border-radius:15px;">
+            <h3>Fiche Commande</h3>
             <input type="hidden" id="f-id">
             <input type="number" id="f-num" placeholder="N°">
             <input type="text" id="f-client" placeholder="Client">
             <input type="text" id="f-color" placeholder="Couleur">
-            <input type="text" id="f-priority" placeholder="Notes">
+            <input type="text" id="f-note" placeholder="Annotation">
             <input type="number" id="f-qty" placeholder="Quantité">
             <select id="f-cat"></select>
             <button onclick="save()" id="btn-save" style="width:100%; padding:15px; background:var(--s); color:white; border:none; border-radius:10px; font-weight:bold;">ENREGISTRER</button>
-            <button onclick="toggleView('v-main')" style="width:100%; margin-top:10px; background:none; border:none;">ANNULER</button>
+            <button onclick="toggleView('v-main')" style="width:100%; margin-top:10px; background:none; border:none;">RETOUR</button>
         </div>
     </div>
 </div>
@@ -69,8 +66,8 @@
 
 <script>
     const URL = "https://script.google.com/macros/s/AKfycby0E78pA3jMqOuEemCrieo7dcMR8uADuh6YgviuQDv7QMCyzdYkMSvpszJXfSaLEFl1LA/exec";
-    let orders = [], categories = ["POLOS","PANTALONS","JACKETS","JUPES","BERMUDAS","BLOUSONS"];
-    let curTab = "POLOS", curDept = 'COUPE', lock = false;
+    let orders = [], categories = ["POLOS","PANTALONS","JACKETS","JUPES","BERMUDAS"];
+    let curTab = "POLOS", curDept = "COUPE", lock = false;
 
     async function fetchData() {
         if(lock) return;
@@ -79,22 +76,20 @@
             const res = await fetch(URL);
             const data = await res.json();
             
-            // Nettoyage catégories
             const cItem = data.find(o => String(o.id) === "999");
             if(cItem) categories = JSON.parse(cItem.client);
             
-            // Filtrage Unique et Nettoyage de l'atelier
+            // FILTRAGE ET REPARATION DES DONNEES
             const unique = []; const seen = new Set();
             data.filter(o => String(o.id) !== "999").forEach(o => {
                 if(!seen.has(o.id)) {
-                    // Force la majuscule pour le département pour éviter les bugs de lecture
-                    o.dept = o.dept ? String(o.dept).toUpperCase().trim() : 'COUPE';
+                    // SECURITE : On force le département à être valide et en majuscules
+                    o.dept = (o.dept || "COUPE").toString().toUpperCase().trim();
                     unique.push(o);
                     seen.add(o.id);
                 }
             });
-            orders = unique; 
-            render();
+            orders = unique; render();
             document.getElementById('sync-icon').style.color = "#10b981";
         } catch(e) { document.getElementById('sync-icon').style.color = "red"; }
     }
@@ -105,7 +100,7 @@
         const toSave = [...orders, {id: 999, num: 0, client: JSON.stringify(categories), color: '', priority: '', qty: 0, cat: 'SYSTEM', status: 'x'}];
         try {
             await fetch(URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(toSave) });
-            setTimeout(() => { lock = false; document.getElementById('sync-icon').innerHTML = "●"; fetchData(); }, 2000);
+            setTimeout(() => { lock = false; document.getElementById('sync-icon').innerHTML = "●"; fetchData(); }, 2500);
         } catch(e) { lock = false; }
     }
 
@@ -115,11 +110,8 @@
         if(!categories.includes(curTab)) curTab = categories[0];
         nav.innerHTML = categories.map(c => `<button class="tab ${curTab===c?'active':''}" onclick="curTab='${c}';render();">${c}</button>`).join('');
 
-        // LOGIQUE DE FILTRAGE STRICTE
-        const filtered = orders.filter(o => {
-            const itemDept = o.dept || 'COUPE';
-            return itemDept === curDept && o.cat === curTab;
-        });
+        // FILTRAGE ULTRA-STRICT
+        const filtered = orders.filter(o => o.dept === curDept && o.cat === curTab);
 
         filtered.forEach(o => {
             const div = document.createElement('div');
@@ -135,53 +127,57 @@
                     <div class="qty">${o.qty}</div>
                 </div>
                 <div class="st-group">
-                    <button class="st-btn at ${o.status==='w'?'active':''}" onclick="setSt('${o.id}','w')">ATTENTE</button>
-                    <button class="st-btn in ${o.status==='in'?'active':''}" onclick="setSt('${o.id}','in')">COURS</button>
-                    <button class="st-btn ok ${o.status==='ok'?'active':''}" onclick="setSt('${o.id}','ok')">FINI</button>
+                    <button class="st-btn ${o.status==='w'?'active':''}" onclick="setSt('${o.id}','w')">ATTENTE</button>
+                    <button class="st-btn ${o.status==='in'?'active':''}" onclick="setSt('${o.id}','in')">COURS</button>
+                    <button class="st-btn ${o.status==='ok'?'active':''}" onclick="setSt('${o.id}','ok')">FINI</button>
                     <button class="st-btn" onclick="prepEdit('${o.id}')">✎</button>
                     <button class="st-btn" onclick="del('${o.id}')" style="color:red">✖</button>
                 </div>
-                ${(curDept==='COUPE' && o.status==='ok')?`<button onclick="clone('${o.id}')" style="width:100%;margin-top:10px;padding:12px;border-radius:10px;border:none;background:var(--p);color:white;font-weight:bold;">ENVOYER PROD (COUT/LOG/FIN) 🚀</button>`:''}
+                ${(curDept === 'COUPE' && o.status === 'ok') ? `<button onclick="launchProd('${o.id}')" style="width:100%; margin-top:10px; padding:12px; background:var(--p); color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer;">LANCER EN PROD 🚀</button>` : ''}
             `;
             list.appendChild(div);
         });
     }
 
-    function clone(id) {
+    function launchProd(id) {
         const o = orders.find(x => x.id == id);
-        if(!confirm("Cloner vers les 3 ateliers ?")) return;
+        if(!confirm("Envoyer vers COUTURE, LOGO et FINITION ?")) return;
 
-        ['COUTURE','LOGO','FINITION'].forEach(d => {
-            const cloneObj = JSON.parse(JSON.stringify(o));
-            cloneObj.id = "ID-" + Date.now() + Math.floor(Math.random()*9000);
-            cloneObj.dept = d; // Affectation forcée en MAJUSCULE
-            cloneObj.status = 'w';
-            cloneObj.priority = "Vient de la Coupe";
-            orders.push(cloneObj);
+        // Création des 3 copies avec départements forcés
+        const depts = ["COUTURE", "LOGO", "FINITION"];
+        depts.forEach(d => {
+            const clone = JSON.parse(JSON.stringify(o));
+            clone.id = "ID-" + Date.now() + Math.floor(Math.random()*9999);
+            clone.dept = d; // ON FORCE L'ATELIER ICI
+            clone.status = 'w';
+            clone.priority = "Vient de la Coupe";
+            orders.push(clone);
         });
 
-        o.priority = "✅ Transféré " + new Date().toLocaleTimeString(); 
-        render(); // Rafraîchit tout de suite pour "faire partir" les clones de la vue Coupe
+        o.priority = "✅ Transféré en Prod"; 
+        render(); // Rafraîchit visuellement pour faire disparaître les clones de l'écran Coupe
         sync();
     }
 
     function save() {
         const id = document.getElementById('f-id').value;
+        const oExist = id ? orders.find(x => x.id == id) : null;
         const newO = {
             id: id || "ID-" + Date.now() + Math.floor(Math.random()*1000),
             num: document.getElementById('f-num').value,
             client: document.getElementById('f-client').value.toUpperCase(),
             color: document.getElementById('f-color').value,
-            priority: document.getElementById('f-priority').value,
+            priority: document.getElementById('f-note').value,
             qty: document.getElementById('f-qty').value,
             cat: document.getElementById('f-cat').value,
-            dept: id ? orders.find(x=>x.id==id).dept : curDept,
-            status: id ? orders.find(x=>x.id==id).status : 'w'
+            dept: oExist ? oExist.dept : curDept, // Garde le département actuel ou prend celui de l'onglet
+            status: oExist ? oExist.status : 'w'
         };
         if(id) orders = orders.map(x => x.id == id ? newO : x); else orders.push(newO);
         toggleView('v-main'); sync();
     }
 
+    // Utilitaires
     function setDept(d) { curDept = d; document.querySelectorAll('.dept-btn').forEach(b => b.classList.toggle('active', b.innerText===d)); render(); }
     function setSt(id, s) { orders.find(x => x.id == id).status = s; render(); sync(); }
     function del(id) { if(confirm("Supprimer ?")) { orders = orders.filter(x => x.id != id); sync(); } }
@@ -190,7 +186,7 @@
     function prepEdit(id) {
         const o = orders.find(x => x.id == id);
         document.getElementById('f-id').value=o.id; document.getElementById('f-num').value=o.num; document.getElementById('f-client').value=o.client;
-        document.getElementById('f-qty').value=o.qty; document.getElementById('f-color').value=o.color; document.getElementById('f-priority').value=o.priority||"";
+        document.getElementById('f-qty').value=o.qty; document.getElementById('f-color').value=o.color; document.getElementById('f-note').value=o.priority||"";
         document.getElementById('f-cat').innerHTML = categories.map(c => `<option value="${c}">${c}</option>`).join('');
         document.getElementById('f-cat').value = o.cat; toggleView('v-form');
     }
