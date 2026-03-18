@@ -107,8 +107,18 @@
         
         nav.innerHTML = categories.map(c => `<button class="tab ${curTab===c?'active':''}" onclick="curTab='${c}';render();">${c}</button>`).join('');
 
+        // Priorité : ok (1), in (2), w (3)
+        const priority = { 'ok': 1, 'in': 2, 'w': 3 };
+
         const filtered = orders.filter(o => o.dept === curDept && o.cat === curTab && (o.client.toLowerCase().includes(search) || o.num.toString().includes(search)))
-                               .sort((a, b) => parseInt(a.num) - parseInt(b.num));
+                               .sort((a, b) => {
+                                   // On trie d'abord par le statut (Fini en haut)
+                                   if (priority[a.status] !== priority[b.status]) {
+                                       return priority[a.status] - priority[b.status];
+                                   }
+                                   // Si même statut, on trie par numéro
+                                   return parseInt(a.num) - parseInt(b.num);
+                               });
 
         filtered.forEach(o => {
             const div = document.createElement('div');
@@ -133,28 +143,19 @@
         });
     }
 
-    // --- LOGIQUE DE COPIE ---
     function handleFini(id) {
         const o = orders.find(x => x.id == id);
         if (!o) return;
-
-        // On marque la fiche actuelle comme FINIE
         o.status = 'ok';
-
-        // Si on est en COUPE, on crée des COPIES pour Couture et Logo
         if (o.dept === 'COUPE') {
             const copyCouture = {...o, id: "CP-" + Date.now() + "-1", dept: 'COUTURE', status: 'w'};
             const copyLogo = {...o, id: "CP-" + Date.now() + "-2", dept: 'LOGO', status: 'w'};
             orders.push(copyCouture, copyLogo);
-        } 
-        // Si on est en COUTURE ou LOGO, on crée une COPIE pour Finition
-        else if (o.dept === 'COUTURE' || o.dept === 'LOGO') {
+        } else if (o.dept === 'COUTURE' || o.dept === 'LOGO') {
             const copyFinition = {...o, id: "CP-" + Date.now() + "-3", dept: 'FINITION', status: 'w'};
             orders.push(copyFinition);
         }
-
-        render();
-        sync();
+        render(); sync();
     }
 
     function setSt(id, s) { orders.find(x => x.id == id).status = s; render(); sync(); }
